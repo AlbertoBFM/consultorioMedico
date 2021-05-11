@@ -3,10 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medico;
+<<<<<<< HEAD
 use Illuminate\Http\Request;
 
 class MedicoController extends Controller
 {
+=======
+use App\Models\User;
+use App\Models\Especialidad;
+use App\Models\Salario;
+use App\Models\Turno;
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
+class MedicoController extends Controller
+{
+    public function __construct(){
+        // $this->middleware("auth");
+    }
+>>>>>>> 0a99fa1116c721f9afc5ea8f5a8f925b90a9fa81
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +31,12 @@ class MedicoController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         //
+=======
+        $medicos = Medico::paginate(8);
+        return view("medicos.index", compact("medicos"));
+>>>>>>> 0a99fa1116c721f9afc5ea8f5a8f925b90a9fa81
     }
 
     /**
@@ -24,7 +46,18 @@ class MedicoController extends Controller
      */
     public function create()
     {
+<<<<<<< HEAD
         //
+=======
+        $medico = new Medico();
+        $title = __("Registrar Médico");
+        $textButton = __("Registrar");
+        $route = route("medico.store");
+        $especialidades = Especialidad::all();
+        $turnos = Turno::all();
+        $salarios = Salario::all();
+        return view("medicos.create", compact("title", "textButton", "route", "medico","especialidades","turnos","salarios"));
+>>>>>>> 0a99fa1116c721f9afc5ea8f5a8f925b90a9fa81
     }
 
     /**
@@ -35,7 +68,38 @@ class MedicoController extends Controller
      */
     public function store(Request $request)
     {
+<<<<<<< HEAD
         //
+=======
+        $this->validate($request, [
+            "email" => "required|unique:users",
+            "ci" => "required|unique:medicos|min:8",
+            "apellidos" => "required|max:100",
+            "nombres" => "required|max:100",
+            "f_nac" => "required",
+            "cel" => "required|unique:medicos|min:8|max:30",
+        ]);
+        $ciAux = $request->ci;
+        Medico::create([
+            'ci' => $request->ci,
+            'apellidos' => $request->apellidos,
+            'nombres' => $request->nombres,
+            'f_nac' => $request->f_nac,
+            'cel' => $request->cel,
+            'especialidad_id' => $request->especialidad,
+            'salario_id' => $request->salario,
+            'turnos_id' => $request->turno,
+        ]);
+        //buscamos el medico
+        $medicoRecup = Medico::where("ci",$ciAux)->get();
+        User::create([
+            'email' => $request->email,
+            'email_verified_at' => now(),
+            'password' => Hash::make($request->ci),
+            'medico_id' => $medicoRecup[0]["id"]
+        ]);
+        return redirect(route("medico.index"))->with("success", __("¡Médico Creado!"));
+>>>>>>> 0a99fa1116c721f9afc5ea8f5a8f925b90a9fa81
     }
 
     /**
@@ -57,7 +121,18 @@ class MedicoController extends Controller
      */
     public function edit(Medico $medico)
     {
+<<<<<<< HEAD
         //
+=======
+        $update = true;
+        $title = __("Modificar Médico");
+        $textButton = __("Actualizar");
+        $route = route("medico.update", ["medico" => $medico]);
+        $especialidades = Especialidad::all();
+        $turnos = Turno::all();
+        $salarios = Salario::all();
+        return view("medicos.edit", compact("update","title", "textButton", "route", "medico","especialidades","turnos","salarios"));
+>>>>>>> 0a99fa1116c721f9afc5ea8f5a8f925b90a9fa81
     }
 
     /**
@@ -69,7 +144,30 @@ class MedicoController extends Controller
      */
     public function update(Request $request, Medico $medico)
     {
+<<<<<<< HEAD
         //
+=======
+        $this->validate($request, [
+            "ci" => "required|unique:medicos,ci,".$medico->id."|min:8",
+            "apellidos" => "required|max:100",
+            "nombres" => "required|max:100",
+            "f_nac" => "required",
+            "cel" => "required|unique:medicos,cel,".$medico->id."|min:8|max:30",
+        ]);
+        //ACTUALIZANDO
+        $medico->fill([
+            'ci' => $request->ci,
+            'apellidos' => $request->apellidos,
+            'nombres' => $request->nombres,
+            'f_nac' => $request->f_nac,
+            'cel' => $request->cel,
+            'especialidad_id' => $request->especialidad,
+            'salario_id' => $request->salario,
+            'turnos_id' => $request->turno,
+        ])->save();
+        // return back()->with("success", __("Médico Modificado"));
+        return redirect(route("medico.index"))->with("success", __("¡Médico Modificado!"));
+>>>>>>> 0a99fa1116c721f9afc5ea8f5a8f925b90a9fa81
     }
 
     /**
@@ -80,6 +178,11 @@ class MedicoController extends Controller
      */
     public function destroy(Medico $medico)
     {
+<<<<<<< HEAD
         //
+=======
+        $medico->delete();
+        return back()->with("success", __("Medico Eliminado"));
+>>>>>>> 0a99fa1116c721f9afc5ea8f5a8f925b90a9fa81
     }
 }
