@@ -24,6 +24,13 @@
                         {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
+
+                <div>
+                    <a href="{{ route('secretaria.index') }}" class="text-lg font-semibold text-gray-100 no-underline">
+                        {{ __('Pagina Principal') }}
+                    </a>
+                </div>
+
                 <nav class="space-x-4 text-gray-300 text-sm sm:text-base">
                     @guest
                         <a class="no-underline hover:underline" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -32,7 +39,6 @@
                         @endif
                     @else
                         <span>{{ Auth::user()->secretaria->nombres }}</span>
-
                         <a href="{{ route('logout') }}"
                            class="no-underline hover:underline"
                            onclick="event.preventDefault();
@@ -44,7 +50,6 @@
                 </nav>
             </div>
         </header>
-
         @yield('content')
     </div>
 </body>

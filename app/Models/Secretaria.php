@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Secretaria extends Model
 {
     use HasFactory;
+    
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function turno(){
+        return $this->belongsTo(Turno::class,'turnos_id');
+    }
 }

@@ -20,8 +20,6 @@ class CreateSecretariasTable extends Migration
             $table->string("nombres");
             $table->date("f_nac");
             $table->string("cel")->unique();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('salario_id');
             $table->foreign('salario_id')->references('id')->on('salarios');
             $table->unsignedBigInteger('turnos_id');
