@@ -18,7 +18,9 @@ class User extends Authenticatable
     protected $fillable = [
         'email',
         'password',
-        'medico_id'
+        'medico_id',
+        'jefemedico_id',
+        'secretaria_id'
     ];
 
     /**
@@ -42,6 +44,7 @@ class User extends Authenticatable
 
     public function medico(){
         return $this->belongsTo(Medico::class);
+    }
     public function secretaria(){
         return $this->belongsTo(Secretaria::class);
     }
