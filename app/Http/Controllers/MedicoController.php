@@ -78,6 +78,7 @@ class MedicoController extends Controller
         ]);
         //buscamos el medico
         $medicoRecup = Medico::where("ci",$ciAux)->get();
+        //creamos el usuario
         User::create([
             'email' => $request->email,
             'email_verified_at' => now(),
