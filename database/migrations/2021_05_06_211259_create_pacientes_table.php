@@ -20,7 +20,9 @@ class CreatePacientesTable extends Migration
             $table->string("nombres");
             $table->date("f_nac");
             $table->string("sexo");
-            $table->string("cel")->unique();
+            $table->string("cel");
+            $table->unsignedBigInteger('secretaria_id');
+            $table->foreign('secretaria_id')->references('id')->on('secretarias');
             $table->timestamps();
         });
     }

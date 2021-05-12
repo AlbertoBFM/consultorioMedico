@@ -17,4 +17,7 @@ class Turno extends Model
         return $this->hasMany(Medico::class, 'id');
     }
 
+    public function secretaria(){
+        return $this->hasMany(Secretaria::class);
+    }
 }

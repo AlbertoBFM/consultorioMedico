@@ -12,9 +12,13 @@ class SecretariaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __contruct(){
+        $this->middleware("auth");
+    }
     public function index()
     {
-        //
+        //$secretaria=Contact::where("user_id",auth()->id())->paginate(5);
+        return view('secretaria.index');//,compact(''));
     }
 
     /**
