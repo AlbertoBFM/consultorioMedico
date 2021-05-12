@@ -15,35 +15,25 @@ class TiposSeeder extends Seeder
     {
         return \DB::table('tipos')->insert([
             [
-                "tipo_consulta" => "Medicina General",
                 "precio_consulta" => 25.0,
+                "especialidad_id" => 1,
                 "created_at" => now()
             ],
             [
-                "tipo_consulta" => "Reconsulta",
                 "precio_consulta" => 20.0,
+                "especialidad_id" => 2,
                 "created_at" => now()
             ],
             [
-                "tipo_consulta" => "Ginecologia",
                 "precio_consulta" => 50.0,
+                "especialidad_id" => 3,
                 "created_at" => now()
             ],
             [
-                "tipo_consulta" => "Ecografía",
                 "precio_consulta" => 120.0,
+                "especialidad_id" => 4,
                 "created_at" => now()
-            ],
-            [
-                "tipo_consulta" => "Consulta a Domicilio",
-                "precio_consulta" => 50.0,
-                "created_at" => now()
-            ],
-            [
-                "tipo_consulta" => "Emergencias",
-                "precio_consulta" => 35.0,
-                "created_at" => now()
-            ],
+            ]
         ]);
     }
 }

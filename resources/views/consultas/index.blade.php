@@ -8,7 +8,7 @@
     </div>
 @endif
     <div class="w-full max-w mt-15 m-auto">
-        <form 
+        <form
             class="bg-white shadow-md rounded px-8 pt-10 pb-8 mb-4"
             method="POST"
             action="{{route('consulta.store')}}"
@@ -25,7 +25,7 @@
                         <option value="{{$pacientes->ci}}">
                     @endforeach
                 </datalist>
-                
+
                 @error('carnetidentidad')
                 <div role="alert">
                     <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
@@ -61,10 +61,10 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="tipo">
                     TIPO DE LA CONSULTA
                 </label>
-                
+
                 <select name='tipos' class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                     @foreach($tipos as $tipoconsulta)
-                        <option value="{{$tipoconsulta->id}}">{{$tipoconsulta->tipo_consulta}} - Bs. {{$tipoconsulta->precio_consulta}}</option>
+                        <option value="{{$tipoconsulta->id}}">{{$tipoconsulta->nombre_especialidad}} - Bs. {{$tipoconsulta->precio_consulta}}</option>
                     @endforeach
                 </select>
 
@@ -80,7 +80,7 @@
                 @enderror
             </div>
 
-            
+
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="medico">
                     MEDICO
@@ -102,7 +102,7 @@
                 @enderror
             </div>
 
-        
+
             <div class="flex items-center justify-between">
                 <button type="submit" class="transition duration-500 ease-in-out hover:bg-red-600 transform hover:scale-102 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     {{__('Registrar consulta')}}
