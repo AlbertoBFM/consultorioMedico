@@ -52,6 +52,7 @@ class ConsultaController extends Controller
         else{
             $medicos=Medico::query()->select(['*'])->where("turnos_id",'6')->get();
         }
+        return view('consultas.index',compact('paciente','tipos','medicos'));
     }
 
     /**

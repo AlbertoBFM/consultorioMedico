@@ -45,7 +45,7 @@ class DiagnosticoController extends Controller
     public function store(Request $request)
     {
         $usuario=User::where("id",auth()->id())->get();
-        
+
         Diagnostico::insert([
             'Anamnesis' => $request->anamnesis,
             'Enfermedad_Actual' => $request->enfermedadactual,
@@ -56,7 +56,7 @@ class DiagnosticoController extends Controller
             'medico_id' => $usuario[0]['medico_id'],
             'paciente_id' => $request->pacientess
         ]);
-        
+
 
         $paciente1=Paciente::join('consultas','consultas.paciente_id',"=","pacientes.id")
                             ->select("consultas.id")
