@@ -16,4 +16,5 @@ class Turno extends Model
     public function medicos(){
         return $this->hasMany(Medico::class, 'id');
     }
+
 }

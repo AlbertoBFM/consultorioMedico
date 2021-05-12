@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medico;
+
+class MedicoController extends Controller
+{
+
 use App\Models\User;
 use App\Models\Especialidad;
 use App\Models\Salario;
@@ -17,6 +21,7 @@ class MedicoController extends Controller
     public function __construct(){
         // $this->middleware("auth");
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,6 +40,7 @@ class MedicoController extends Controller
      */
     public function create()
     {
+
         $medico = new Medico();
         $title = __("Registrar Médico");
         $textButton = __("Registrar");
@@ -53,6 +59,7 @@ class MedicoController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
             "email" => "required|unique:users",
             "ci" => "required|unique:medicos|min:8",
@@ -81,6 +88,7 @@ class MedicoController extends Controller
             'medico_id' => $medicoRecup[0]["id"]
         ]);
         return redirect(route("medico.index"))->with("success", __("¡Médico Creado!"));
+
     }
 
     /**
@@ -102,6 +110,7 @@ class MedicoController extends Controller
      */
     public function edit(Medico $medico)
     {
+
         $update = true;
         $title = __("Modificar Médico");
         $textButton = __("Actualizar");
@@ -110,6 +119,7 @@ class MedicoController extends Controller
         $turnos = Turno::all();
         $salarios = Salario::all();
         return view("medicos.edit", compact("update","title", "textButton", "route", "medico","especialidades","turnos","salarios"));
+
     }
 
     /**
@@ -121,6 +131,7 @@ class MedicoController extends Controller
      */
     public function update(Request $request, Medico $medico)
     {
+
         $this->validate($request, [
             "ci" => "required|unique:medicos,ci,".$medico->id."|min:8",
             "apellidos" => "required|max:100",
@@ -141,6 +152,7 @@ class MedicoController extends Controller
         ])->save();
         // return back()->with("success", __("Médico Modificado"));
         return redirect(route("medico.index"))->with("success", __("¡Médico Modificado!"));
+
     }
 
     /**

@@ -9,6 +9,7 @@ class Salario extends Model
 {
     use HasFactory;
 
+
     protected $fillable = [
         'Salario',
         'Bono'
@@ -17,5 +18,6 @@ class Salario extends Model
     public function medicos(){
         return $this->hasMany(Medico::class, 'id');
     }
+
 
 }
