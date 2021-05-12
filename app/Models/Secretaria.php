@@ -16,3 +16,4 @@ class Secretaria extends Model
         return $this->belongsTo(Turno::class,'turnos_id');
     }
 }
+ 
