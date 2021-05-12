@@ -8,7 +8,8 @@
     </div>
 @endif
     <div class="w-full max-w mt-15 m-auto">
-        <form
+
+        <form 
             class="bg-white shadow-md rounded px-8 pt-10 pb-8 mb-4"
             method="POST"
             action="{{route('consulta.store')}}"
@@ -25,7 +26,6 @@
                         <option value="{{$pacientes->ci}}">
                     @endforeach
                 </datalist>
-
                 @error('carnetidentidad')
                 <div role="alert">
                     <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
@@ -79,8 +79,6 @@
                 </div>
                 @enderror
             </div>
-
-
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="medico">
                     MEDICO
@@ -117,3 +115,4 @@
         </form>
     </div>
 @endsection
+

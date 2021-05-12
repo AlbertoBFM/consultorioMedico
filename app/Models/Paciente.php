@@ -17,4 +17,8 @@ class Paciente extends Model
         'cel',
         'secretaria_id',
     ];
+
+    public function diagnosticos(){
+        return $this->hasMany(Diagnostico::class, 'id');
+    }
 } 

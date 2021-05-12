@@ -9,6 +9,9 @@ class Tipo extends Model
 {
     use HasFactory;
 
+    public function consultas(){
+        return $this->hasMany(Consulta::class, 'id');
+    }
     protected $fillable = [
         'precio_consulta',
         'especialidad_id'

@@ -15,6 +15,7 @@ class Consulta extends Model
         'paciente_id',
         'secretaria_id',
         'tipo_id',
+        'atendido'
     ];
 
     public function tipos(){
