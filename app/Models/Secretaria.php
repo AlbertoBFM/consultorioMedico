@@ -8,11 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Secretaria extends Model
 {
     use HasFactory;
-    
+    protected $fillable = [
+        'ci',
+        'apellidos',
+        'nombres',
+        'f_nac',
+        'cel',
+        'salario_id',
+        'turnos_id'
+    ];
     public function user(){
         return $this->belongsTo(User::class);
     }
-    public function turno(){
+    public function turnos(){
         return $this->belongsTo(Turno::class,'turnos_id');
     }
 }

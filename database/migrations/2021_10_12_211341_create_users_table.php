@@ -18,11 +18,11 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->unsignedBigInteger('jefemedico_id');
+            $table->unsignedBigInteger('medico_id')->nullable();
+            $table->foreign('medico_id')->references('id')->on('medicos')->onDelete('cascade');
+            $table->unsignedBigInteger('jefemedico_id')->nullable();
             $table->foreign('jefemedico_id')->references('id')->on('jefesmedicos');
-            $table->unsignedBigInteger('medico_id');
-            $table->foreign('medico_id')->references('id')->on('medicos');
-            $table->unsignedBigInteger('secretaria_id');
+            $table->unsignedBigInteger('secretaria_id')->nullable();
             $table->foreign('secretaria_id')->references('id')->on('secretarias');
             $table->rememberToken();
             $table->timestamps();
@@ -34,6 +34,7 @@ class CreateUsersTable extends Migration
      *
      * @return void
      */
+    
     public function down()
     {
         Schema::dropIfExists('users');

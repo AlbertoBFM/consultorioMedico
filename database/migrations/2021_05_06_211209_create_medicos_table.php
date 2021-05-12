@@ -22,12 +22,14 @@ class CreateMedicosTable extends Migration
             $table->string("cel")->unique();
             $table->unsignedBigInteger('especialidad_id');
             $table->foreign('especialidad_id')->references('id')->on('especialidades');
+
             $table->unsignedBigInteger('salario_id');
             $table->foreign('salario_id')->references('id')->on('salarios');
             $table->unsignedBigInteger('turnos_id');
             $table->foreign('turnos_id')->references('id')->on('turnos');
             $table->timestamps();
-        }); 
+        });
+
     }
 
     /**

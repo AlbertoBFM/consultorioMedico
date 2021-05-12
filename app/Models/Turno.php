@@ -9,7 +9,15 @@ class Turno extends Model
 {
     use HasFactory;
 
-    public function secretaria(){
-        return $this->hasMany(Secretaria::class);
+    protected $fillable = [
+        'turnos'
+    ];
+
+    public function medicos(){
+        return $this->hasMany(Medico::class, 'id');
+    }
+
+    public function secretarias(){
+        return $this->hasMany(Secretaria::class,'id');
     }
 }

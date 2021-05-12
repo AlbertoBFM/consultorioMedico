@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Salario extends Model
 {
     use HasFactory;
+
+
+    protected $fillable = [
+        'Salario',
+        'Bono'
+    ];
+
+    public function medicos(){
+        return $this->hasMany(Medico::class, 'id');
+    }
+
+
 }

@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Consulta;
+use App\Models\Paciente;
+use App\Models\Medico;
+use App\Models\Tipo;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ConsultaController extends Controller
@@ -14,7 +18,8 @@ class ConsultaController extends Controller
      */
     public function index()
     {
-        //
+        $success=__('Se registro la consulta Exitosamente');
+        return view('consultas.index');
     }
 
     /**
@@ -24,7 +29,10 @@ class ConsultaController extends Controller
      */
     public function create()
     {
-        //
+        $paciente=Paciente::query()->select(['ci'])->get();
+        $tipos=Tipo::query()->select(['id','tipo_consulta','precio_consulta'])->get();
+        $medicos=Medico::query()->select(['*'])->get();
+        return view('consultas.index',compact('paciente','tipos','medicos'));
     }
 
     /**
@@ -35,7 +43,17 @@ class ConsultaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $usuario=User::where("id",auth()->id())->get();
+        $paciente=Paciente::query()->select(['id'])->where("ci",$request->pacientess)->get();
+        Consulta::insert([
+            'motivo_consulta' => $request->motivoconsulta,
+            'medico_id' => $request->medicos,
+            'paciente_id' => $paciente[0]['id'],
+            'secretaria_id' => $usuario[0]['secretaria_id'],
+            'tipo_id' => $request->tipos,
+        ]);
+        
+        return \redirect(route("consulta.create"))->with("success",__("Se registro la consulta Exitosamente'"));
     }
 
     /**
