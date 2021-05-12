@@ -13,17 +13,29 @@ class TurnoTableSeeder extends Seeder
      */
     public function run()
     {
-        return \DB::table('turnos')->insert([
+        return \DB::table('turnos')->insert([//6 FILAS
             [
-                "turnos" => "Mañana",
+                "turnos" => "00:00 - 04:00",
                 "created_at" => now()
             ],
             [
-                "turnos" => "Tarde",
+                "turnos" => "04:00 - 08:00",
                 "created_at" => now()
             ],
             [
-                "turnos" => "Noche",
+                "turnos" => "08:00 - 12:00",
+                "created_at" => now()
+            ],
+            [
+                "turnos" => "12:00 - 16:00",
+                "created_at" => now()
+            ],
+            [
+                "turnos" => "16:00 - 20:00",
+                "created_at" => now()
+            ],
+            [
+                "turnos" => "20:00 - 00:00",
                 "created_at" => now()
             ]
         ]);

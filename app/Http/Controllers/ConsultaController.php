@@ -30,9 +30,28 @@ class ConsultaController extends Controller
     public function create()
     {
         $paciente=Paciente::query()->select(['ci'])->get();
-        $tipos=Tipo::query()->select(['id','tipo_consulta','precio_consulta'])->get();
-        $medicos=Medico::query()->select(['*'])->get();
-        return view('consultas.index',compact('paciente','tipos','medicos'));
+        // $tipos=Tipo::query()->select(['id','tipo_consulta','precio_consulta'])->get();
+        $tipos=Tipo::join('especialidades', 'especialidad_id', '=', 'especialidades.id')
+                    ->select('tipos.*', 'especialidades.*')
+                    ->get();
+        if (date('H')-4 >= 00 && date('H')-4 < 4) {
+            $medicos=Medico::query()->select(['*'])->where("turnos_id",'1')->get();
+        }
+        elseif(date('H')-4 >= 4 && date('H')-4 < 8){
+            $medicos=Medico::query()->select(['*'])->where("turnos_id",'2')->get();
+        }
+        elseif(date('H')-4 >= 8 && date('H')-4 < 12){
+            $medicos=Medico::query()->select(['*'])->where("turnos_id",'3')->get();
+        }
+        elseif(date('H')-4 >= 12 && date('H')-4 < 16){
+            $medicos=Medico::query()->select(['*'])->where("turnos_id",'4')->get();
+        }
+        elseif(date('H')-4 >= 16 && date('H')-4 < 20){
+            $medicos=Medico::query()->select(['*'])->where("turnos_id",'5')->get();
+        }
+        else{
+            $medicos=Medico::query()->select(['*'])->where("turnos_id",'6')->get();
+        }
     }
 
     /**
@@ -53,7 +72,6 @@ class ConsultaController extends Controller
             'tipo_id' => $request->tipos,
             'atentido' => "NO"
         ]);
-        
         return \redirect(route("consulta.create"))->with("success",__("Se registro la consulta Exitosamente'"));
     }
 
