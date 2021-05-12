@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Salario extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
-=======
+
 
     protected $fillable = [
         'Salario',
@@ -20,5 +19,5 @@ class Salario extends Model
         return $this->hasMany(Medico::class, 'id');
     }
 
->>>>>>> 0a99fa1116c721f9afc5ea8f5a8f925b90a9fa81
+
 }

@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Medico extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
-=======
+
     protected $fillable = [
         'ci',
         'apellidos',
@@ -30,5 +29,4 @@ class Medico extends Model
         return $this->belongsTo(Turno::class, 'turnos_id');
     }
 
->>>>>>> 0a99fa1116c721f9afc5ea8f5a8f925b90a9fa81
 }

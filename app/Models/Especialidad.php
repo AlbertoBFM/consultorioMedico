@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Especialidad extends Model
 {
-<<<<<<< HEAD
+
     use HasFactory;
-=======
+
     public $table = "especialidades";
 
     use HasFactory;
@@ -21,5 +21,4 @@ class Especialidad extends Model
     public function medicos(){
         return $this->hasMany(Medico::class, 'id');
     }
->>>>>>> 0a99fa1116c721f9afc5ea8f5a8f925b90a9fa81
 }
