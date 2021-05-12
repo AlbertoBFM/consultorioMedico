@@ -51,6 +51,7 @@ class ConsultaController extends Controller
             'paciente_id' => $paciente[0]['id'],
             'secretaria_id' => $usuario[0]['secretaria_id'],
             'tipo_id' => $request->tipos,
+            'atentido' => "NO"
         ]);
         
         return \redirect(route("consulta.create"))->with("success",__("Se registro la consulta Exitosamente'"));

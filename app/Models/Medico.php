@@ -29,4 +29,7 @@ class Medico extends Model
         return $this->belongsTo(Turno::class, 'turnos_id');
     }
 
+    public function diagnosticos(){
+        return $this->hasMany(Diagnostico::class, 'id');
+    }
 }

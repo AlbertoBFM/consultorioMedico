@@ -24,6 +24,7 @@ class CreateConsultasTable extends Migration
             $table->foreign('secretaria_id')->references('id')->on('secretarias');
             $table->unsignedBigInteger('tipo_id');
             $table->foreign('tipo_id')->references('id')->on('tipos');
+            $table->string('atentido');
             $table->timestamps();
         });
     }
