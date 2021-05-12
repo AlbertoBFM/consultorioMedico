@@ -21,4 +21,8 @@ class Especialidad extends Model
     public function medicos(){
         return $this->hasMany(Medico::class, 'id');
     }
+
+    public function tipos(){
+        return $this->belongsTo(Tipo::class, 'especialidad_id');
+    }
 }
