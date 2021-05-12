@@ -42,6 +42,7 @@ class User extends Authenticatable
 
     public function medico(){
         return $this->belongsTo(Medico::class);
+    }
     public function secretaria(){
         return $this->belongsTo(Secretaria::class);
     }

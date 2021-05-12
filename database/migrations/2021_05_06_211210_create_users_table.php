@@ -20,6 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->unsignedBigInteger('medico_id');
             $table->foreign('medico_id')->references('id')->on('medicos')->onDelete('cascade');
+            $table->unsignedBigInteger('secretaria_id')->nullable();
+            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

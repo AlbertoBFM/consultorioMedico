@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Tipo extends Model
 {
     use HasFactory;
+
+    public function consultas(){
+        return $this->hasMany(Consulta::class, 'id');
+    }
 }

@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Medico;
 
-class MedicoController extends Controller
-{
-
 use App\Models\User;
 use App\Models\Especialidad;
 use App\Models\Salario;

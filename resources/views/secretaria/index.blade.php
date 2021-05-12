@@ -13,7 +13,7 @@
             <section class="flex flex-col break-words bg-white sm:border-1 sm:rounded-md sm:shadow-sm sm:shadow-lg">
     
                 <header class="font-semibold bg-gray-200 text-gray-700 py-5 px-6 sm:py-6 sm:px-8 sm:rounded-t-md">
-                    Bienvenid@ {{Auth::user()->secretaria->nombres}} estas en el turno de la {{Auth::user()->secretaria->turno->turnos}}, que desas hacer el dia de hoy?
+                    Bienvenid@ {{Auth::user()->secretaria->nombres}} estas en el turno de la {{Auth::user()->secretaria->turnos->turnos}}, que desas hacer el dia de hoy?
                 </header>
     
                 <div class="w-full p-6 flex items-center justify-around">
@@ -42,7 +42,7 @@
                               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
                             </p>
                         </div>
-                        <a href="{{route('consulta.index')}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="{{route('consulta.create')}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             INGRESAR
                         </a>
                         <div class="px-6 pt-4 pb-2">

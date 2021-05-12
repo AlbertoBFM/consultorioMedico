@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(EspecialidadTableSeeder::class);
         $this->call(SalarioTableSeeder::class);
         $this->call(TurnoTableSeeder::class);
+        $this->call(SecretariaSeeder::class);
+        $this->call(TiposSeeder::class);
         \App\Models\Medico::factory(1)->create();
         \App\Models\User::factory(1)->create();
     }
