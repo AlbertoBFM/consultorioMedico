@@ -147,30 +147,12 @@
             </div>
             <div class="md:w-1/3">
                 <select name="especialidad" id="especialidad" class="form-select form-select-lg mb-3">
+                    <option value="0"> {{ __("Sin Especialidad") }}</option>
                     @foreach($especialidades as $especialidad)
                         @if( $medico->especialidad_id == $especialidad->id)
                             <option value="{{ $especialidad->id }}" selected> {{ $especialidad->nombre_especialidad }}</option>
                         @else
                             <option value="{{ $especialidad->id }}"> {{ $especialidad->nombre_especialidad }}</option>
-                        @endif
-                    @endforeach
-                </select>
-            </div>
-        </div>
-    <!-- SELECCIÓN SALARIO -->
-        <div class="md:flex md:items-center mb-6">
-            <div class="md:w-1/3">
-                <label for="salario" class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    {{ __("Salario") }}
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select name="salario" id="salario" class="form-select form-select-lg mb-3">
-                    @foreach($salarios as $salario)
-                        @if( $medico->salario_id == $salario->id)
-                            <option value="{{ $salario->id }}" selected> {{ $salario->Salario }}</option>
-                        @else
-                            <option value="{{ $salario->id }}"> {{ $salario->Salario }}</option>
                         @endif
                     @endforeach
                 </select>

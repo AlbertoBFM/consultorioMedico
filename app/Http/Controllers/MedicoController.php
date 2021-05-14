@@ -65,19 +65,63 @@ class MedicoController extends Controller
             "f_nac" => "required",
             "cel" => "required|unique:medicos|min:8|max:30",
         ]);
-        $ciAux = $request->ci;
-        Medico::create([
-            'ci' => $request->ci,
-            'apellidos' => $request->apellidos,
-            'nombres' => $request->nombres,
-            'f_nac' => $request->f_nac,
-            'cel' => $request->cel,
-            'especialidad_id' => $request->especialidad,
-            'salario_id' => $request->salario,
-            'turnos_id' => $request->turno,
-        ]);
+
+        if($request->especialidad == "0"){
+            Salario::create([
+                'Salario' => 2200,
+                'Bono' => 0
+            ]);
+            //recup id SALARIO
+            $salarioRecup = Salario::orderByDesc('created_at')->limit(1)->get();
+            Medico::create([
+                'ci' => $request->ci,
+                'apellidos' => $request->apellidos,
+                'nombres' => $request->nombres,
+                'f_nac' => $request->f_nac,
+                'cel' => $request->cel,
+                'salario_id' => $salarioRecup[0]["id"],
+                'turnos_id' => $request->turno,
+            ]);
+        }
+        else{
+            Salario::create([
+                'Salario' => 0,
+                'Bono' => 0
+            ]);
+            //recup id SALARIO
+            $salarioRecup = Salario::orderByDesc('created_at')->limit(1)->get();
+            Medico::create([
+                'ci' => $request->ci,
+                'apellidos' => $request->apellidos,
+                'nombres' => $request->nombres,
+                'f_nac' => $request->f_nac,
+                'cel' => $request->cel,
+                'especialidad_id' => $request->especialidad,
+                'salario_id' => $salarioRecup[0]["id"],
+                'turnos_id' => $request->turno,
+            ]);
+        }
+
+        // Salario::create([
+        //     'Salario' => $salario,
+        //     'Bono' => 0
+        // ]);
+
+        //recup id SALARIO
+        // $salarioRecup = Salario::orderByDesc('created_at')->limit(1)->get();
+
+        // Medico::create([
+        //     'ci' => $request->ci,
+        //     'apellidos' => $request->apellidos,
+        //     'nombres' => $request->nombres,
+        //     'f_nac' => $request->f_nac,
+        //     'cel' => $request->cel,
+        //     'especialidad_id' => $especialidad,
+        //     'salario_id' => $salarioRecup[0]["id"],
+        //     'turnos_id' => $request->turno,
+        // ]);
         //buscamos el medico
-        $medicoRecup = Medico::where("ci",$ciAux)->get();
+        $medicoRecup = Medico::where("ci",$request->ci)->get();
 
         User::create([
             'email' => $request->email,

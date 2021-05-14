@@ -20,7 +20,7 @@ class CreateMedicosTable extends Migration
             $table->string("nombres");
             $table->date("f_nac");
             $table->string("cel")->unique();
-            $table->unsignedBigInteger('especialidad_id');
+            $table->unsignedBigInteger('especialidad_id')->nullable();
             $table->foreign('especialidad_id')->references('id')->on('especialidades');
 
             $table->unsignedBigInteger('salario_id');
