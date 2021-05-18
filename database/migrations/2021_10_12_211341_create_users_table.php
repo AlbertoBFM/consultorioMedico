@@ -21,9 +21,9 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('medico_id')->nullable();
             $table->foreign('medico_id')->references('id')->on('medicos')->onDelete('cascade');
             $table->unsignedBigInteger('jefemedico_id')->nullable();
-            $table->foreign('jefemedico_id')->references('id')->on('jefesmedicos');
+            $table->foreign('jefemedico_id')->references('id')->on('jefesmedicos')->onDelete('cascade');
             $table->unsignedBigInteger('secretaria_id')->nullable();
-            $table->foreign('secretaria_id')->references('id')->on('secretarias');
+            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

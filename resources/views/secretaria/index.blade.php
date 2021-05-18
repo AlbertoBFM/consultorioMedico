@@ -1,66 +1,62 @@
-@extends('layouts.app')
-
+@extends("layouts.app")
 @section('content')
-    <main class="sm:container sm:mx-auto sm:mt-10">
-        <div class="w-full sm:px-6">
-    
-            @if (session('status'))
-                <div class="text-sm border border-t-8 rounded text-green-700 border-green-600 bg-green-100 px-3 py-4 mb-4" role="alert">
-                    {{ session('status') }}
-                </div>
-            @endif
-    
-            <section class="flex flex-col break-words bg-white sm:border-1 sm:rounded-md sm:shadow-sm sm:shadow-lg">
-    
-                <header class="font-semibold bg-gray-200 text-gray-700 py-5 px-6 sm:py-6 sm:px-8 sm:rounded-t-md">
 
+@if(session('success'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">Felicidades!</strong>
+        <span class="block sm:inline">{{session("success")}}</span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+            <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+        </span>
+    </div>
+@endif
 
-
-                   Bienvenid@ {{Auth::user()->secretaria->nombres}} estas en el turno de la {{Auth::user()->secretaria->turnos->turnos}}, que desas hacer el dia de hoy?
-                
-                
-                
-                
-                </header> 
-
-    
-                <div class="w-full p-6 flex items-center justify-around">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg flex flex-col items-center justify-center">
-                        <img class="w-full" src="https://www.redaccionmedica.com/images/destacados/la-burocracia-acapara-el-15-de-consultas-medicas-que-se-hacen-en-espana-2830.jpg" alt="Sunset in the mountains">
-                        <div class="px-6 py-4">
-                            <div class="font-bold text-xl mb-2">REGISTRO DE PACIENTES</div>
-                            <p class="text-gray-700 text-base">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
-                            </p>
-                        </div>
-                        <a href="{{route('paciente.index')}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            INGRESAR
+<div class="flex justify-center flex-wrap bg-gray-200 p-4 mt-5">
+    <div class="text-center">
+        <h1 class="mb-5 text-4xl">{{ __("Lista de Secretarias") }}</h1>
+        <a href="{{ route('secretaria.create') }}" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded">
+            {{ __("Registrar Secretaria") }}
+        </a>
+    </div>
+</div>
+<table class="border-collapse border text-center border-gray-500 mt-4" style="width:100%">
+    <thead>
+        <tr>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("CI") }}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("APELLIDOS") }}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("NOMBRES") }}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("FECHA DE  NACIMIENTO") }}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("CELULAR") }}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("SALARIO") }}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("TURNO") }}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("OPCIONES") }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse($secretaria as $secretarias)
+            <tr>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->ci }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->apellidos }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->nombres }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->f_nac }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->cel }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->salarios->Salario }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->turnos->turnos }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
+                    <div class="inline-flex">
+                        <a href="{{ route('secretaria.edit', $secretarias) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+                            {{ __("Modificar") }}
                         </a>
-                        <div class="px-6 pt-4 pb-2">
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-                        </div>
                     </div>
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg flex flex-col items-center justify-center">
-                        <img class="w-full" src="https://quoblog.quodem.com/wp-content/uploads/2017/11/Sin-t%C3%ADtulo-1-1.jpg" alt="Sunset in the mountains">
-                        <div class="px-6 py-4">
-                            <div class="font-bold text-xl mb-2">ASIGNACION DE CONSULTAS MÉDICAS</div>
-                            <p class="text-gray-700 text-base">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
-                            </p>
-                        </div>
-                        <a href="{{route('consulta.create')}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            INGRESAR
-                        </a>
-                        <div class="px-6 pt-4 pb-2">
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td class="border-solid border-2 border-gray-500 px-4 py-2" colspan="5">
+                    {{ __("LISTA DE MÉDICOS VACIA") }}
+                </td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
 @endsection

@@ -23,5 +23,9 @@ class Secretaria extends Model
     public function turnos(){
         return $this->belongsTo(Turno::class,'turnos_id');
     }
+
+    public function salarios(){
+        return $this->belongsTo(Salario::class,'salario_id');
+    }
 }
  

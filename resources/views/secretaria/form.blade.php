@@ -24,7 +24,7 @@
                     id="email"
                     name="email"
                     type="text"
-                    placeholder="alberto.brandon2@gmail.com"
+                    placeholder="juacito@gmail.com"
                     required
                 >
                 @error("email")
@@ -46,7 +46,7 @@
                 id="ci"
                 name="ci"
                 type="text"
-                value="{{ old('ci') ?? $medico->ci }}"
+                value="{{ old('ci') ?? $secretaria->ci }}"
                 placeholder="15112775"
             >
             @error("ci")
@@ -67,7 +67,7 @@
                 id="apellidos"
                 name="apellidos"
                 type="text"
-                value="{{ old('apellidos') ?? $medico->apellidos }}"
+                value="{{ old('apellidos') ?? $secretaria->apellidos }}"
                 placeholder="Pinto Ortega"
             >
             @error("apellidos")
@@ -88,7 +88,7 @@
                 id="nombres"
                 name="nombres"
                 type="text"
-                value="{{ old('nombres') ?? $medico->nombres }}"
+                value="{{ old('nombres') ?? $secretaria->nombres }}"
                 placeholder="Juancito Rodrigo"
             >
             @error("nombres")
@@ -109,7 +109,7 @@
                 id="f_nac"
                 name="f_nac"
                 type="date"
-                value="{{ old('f_nac') ?? $medico->f_nac }}"
+                value="{{ old('f_nac') ?? $secretaria->f_nac }}"
             >
             @error("f_nac")
                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
@@ -129,7 +129,7 @@
                 id="cel"
                 name="cel"
                 type="text"
-                value="{{ old('cel') ?? $medico->cel }}"
+                value="{{ old('cel') ?? $secretaria->cel }}"
                 placeholder="76167710"
             >
             @error("cel")
@@ -138,26 +138,6 @@
         </div>
     </div>
 
-    <!-- SELECCIÓN ESPECIALIDAD -->
-        <div class="md:flex md:items-center mb-6">
-            <div class="md:w-1/3">
-                <label for="especialidad" class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    {{ __("Especialidad") }}
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select name="especialidad" id="especialidad" class="form-select form-select-lg mb-3">
-                    <option value="0"> {{ __("Sin Especialidad") }}</option>
-                    @foreach($especialidades as $especialidad)
-                        @if( $medico->especialidad_id == $especialidad->id)
-                            <option value="{{ $especialidad->id }}" selected> {{ $especialidad->nombre_especialidad }}</option>
-                        @else
-                            <option value="{{ $especialidad->id }}"> {{ $especialidad->nombre_especialidad }}</option>
-                        @endif
-                    @endforeach
-                </select>
-            </div>
-        </div>
     <!-- SELECCIÓN TURNO -->
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3">
@@ -167,13 +147,8 @@
             </div>
             <div class="md:w-1/3">
                 <select name="turno" id="turno" class="form-select form-select-lg mb-3">
-                    @foreach($turnos as $turno)
-                        @if( $medico->turnos_id == $turno->id && $turno->turnos!='Mañana' && $turno->turnos!='Tarde')
-                            <option value="{{ $turno->turnos }}" selected> {{ $turno->turnos }}</option>
-                        @elseif($turno->turnos != 'Mañana' && $turno->turnos != 'Tarde')
-                            <option value="{{ $turno->turnos }}"> {{ $turno->turnos }}</option>
-                        @endif
-                    @endforeach
+                    <option value="Mañana" selected>Mañana</option>
+                    <option value="Tarde">Tarde</option>
                 </select>
             </div>
         </div>

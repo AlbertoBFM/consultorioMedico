@@ -22,7 +22,7 @@ class CreatePacientesTable extends Migration
             $table->string("sexo");
             $table->string("cel");
             $table->unsignedBigInteger('secretaria_id');
-            $table->foreign('secretaria_id')->references('id')->on('secretarias');
+            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
             $table->timestamps();
         });
     }
