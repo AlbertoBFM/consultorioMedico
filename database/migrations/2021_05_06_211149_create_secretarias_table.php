@@ -22,9 +22,9 @@ class CreateSecretariasTable extends Migration
             $table->string("cel")->unique();
 
             $table->unsignedBigInteger('salario_id');
-            $table->foreign('salario_id')->references('id')->on('salarios');
+            $table->foreign('salario_id')->references('id')->on('salarios')->onDelete('cascade');
             $table->unsignedBigInteger('turnos_id');
-            $table->foreign('turnos_id')->references('id')->on('turnos');
+            $table->foreign('turnos_id')->references('id')->on('turnos')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -9,7 +9,7 @@
 @endif
     <div class="w-full max-w mt-15 m-auto">
 
-        <form 
+        <form
             class="bg-white shadow-md rounded px-8 pt-10 pb-8 mb-4"
             method="POST"
             action="{{route('consulta.store')}}"
@@ -85,7 +85,17 @@
                 </label>
                 <select name='medicos' class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                     @foreach($medicos as $medico)
-                        <option value="{{$medico->id}}">{{$medico->nombres}}{{$medico->apellidos}} - {{$medico->especialidades->nombre_especialidad}} - Turno {{$medico->turnos->turnos}}</option>
+                        <option
+                            value="{{$medico->id}}">
+                            {{$medico->nombres}}{{$medico->apellidos}} -
+                            @isset($medico->especialidades->nombre_especialidad)
+                                {{ $medico->especialidades->nombre_especialidad }}
+                            @else
+                                {{ __("Medico General") }}
+                            @endisset
+                            -
+                            Turno {{$medico->turnos->turnos}}
+                        </option>
                     @endforeach
                 </select>
                 @error('medicos')

@@ -19,5 +19,7 @@ class Salario extends Model
         return $this->hasMany(Medico::class, 'id');
     }
 
-
+    public function secretarias(){
+        return $this->hasMany(Secretaria::class, 'id');
+    }
 }

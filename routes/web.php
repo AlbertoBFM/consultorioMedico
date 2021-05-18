@@ -26,6 +26,11 @@ use App\Http\Controllers\TurnoController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/secretariaprincipal', function () {
+    return view('secretaria.opciones.index');
+});
+
 Auth::routes();
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');

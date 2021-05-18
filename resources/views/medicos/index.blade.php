@@ -30,7 +30,13 @@
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $medico->nombres }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $medico->f_nac }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $medico->cel }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $medico->especialidades->nombre_especialidad }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
+                @isset($medico->especialidades->nombre_especialidad)
+                    {{ $medico->especialidades->nombre_especialidad }}
+                @else
+                    {{ __("Sin Especialidad") }}
+                @endisset
+                </td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $medico->salarios->Salario }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $medico->turnos->turnos }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">

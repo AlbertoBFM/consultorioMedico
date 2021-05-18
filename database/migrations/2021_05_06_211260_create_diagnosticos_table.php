@@ -22,9 +22,9 @@ class CreateDiagnosticosTable extends Migration
             $table->String("Diagnostico");
             $table->String("Tratamiento");
             $table->unsignedBigInteger('medico_id');
-            $table->foreign('medico_id')->references('id')->on('medicos');
+            $table->foreign('medico_id')->references('id')->on('medicos')->onDelete('cascade');
             $table->unsignedBigInteger('paciente_id');
-            $table->foreign('paciente_id')->references('id')->on('pacientes');
+            $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('cascade');
             $table->timestamps();
         });
     }
