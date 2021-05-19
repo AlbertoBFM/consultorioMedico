@@ -101,25 +101,6 @@ class MedicoController extends Controller
                 'turnos_id' => $request->turno,
             ]);
         }
-
-        // Salario::create([
-        //     'Salario' => $salario,
-        //     'Bono' => 0
-        // ]);
-
-        //recup id SALARIO
-        // $salarioRecup = Salario::orderByDesc('created_at')->limit(1)->get();
-
-        // Medico::create([
-        //     'ci' => $request->ci,
-        //     'apellidos' => $request->apellidos,
-        //     'nombres' => $request->nombres,
-        //     'f_nac' => $request->f_nac,
-        //     'cel' => $request->cel,
-        //     'especialidad_id' => $especialidad,
-        //     'salario_id' => $salarioRecup[0]["id"],
-        //     'turnos_id' => $request->turno,
-        // ]);
         //buscamos el medico
         $medicoRecup = Medico::where("ci",$request->ci)->get();
 
@@ -157,10 +138,8 @@ class MedicoController extends Controller
         $title = __("Modificar Médico");
         $textButton = __("Actualizar");
         $route = route("medico.update", ["medico" => $medico]);
-        $especialidades = Especialidad::all();
         $turnos = Turno::all();
-        $salarios = Salario::all();
-        return view("medicos.edit", compact("update","title", "textButton", "route", "medico","especialidades","turnos","salarios"));
+        return view("medicos.edit", compact("update","title", "textButton", "route", "medico","turnos"));
 
     }
 
@@ -188,8 +167,6 @@ class MedicoController extends Controller
             'nombres' => $request->nombres,
             'f_nac' => $request->f_nac,
             'cel' => $request->cel,
-            'especialidad_id' => $request->especialidad,
-            'salario_id' => $request->salario,
             'turnos_id' => $request->turno,
         ])->save();
         // return back()->with("success", __("Médico Modificado"));
@@ -205,7 +182,12 @@ class MedicoController extends Controller
      */
     public function destroy(Medico $medico)
     {
-        $medico->delete();
-        return back()->with("success", __("Medico Eliminado"));
+        echo $medico;
+        // try {
+        //     $medico->delete();
+        // } catch (\Throwable $th) {
+
+        // }
+        // return back()->with("success", __("Medico Eliminado"));
     }
 }

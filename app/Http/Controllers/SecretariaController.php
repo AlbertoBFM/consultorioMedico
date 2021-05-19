@@ -25,8 +25,8 @@ class SecretariaController extends Controller
     }*/
     public function index()
     {
-        $secretaria=Secretaria::all();
-        return view('secretaria.index',compact('secretaria'));
+        $secretarias = Secretaria::all();
+        return view('secretaria.index',compact('secretarias'));
     }
 
     /**
@@ -53,6 +53,16 @@ class SecretariaController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->validate($request, [
+            "email" => "required|unique:users",
+            "ci" => "required|unique:medicos|unique:secretarias|min:8",
+            "apellidos" => "required|max:100",
+            "nombres" => "required|max:100",
+            "f_nac" => "required",
+            "cel" => "required|unique:medicos|unique:secretarias|min:8|max:30",
+        ]);
+
         Salario::create([
             'Salario' => 2200,
             'Bono' => 0
@@ -61,9 +71,8 @@ class SecretariaController extends Controller
 
 
         $salarioRecup = Salario::orderByDesc('created_at')->limit(1)->get();
-        $turnoRecup = Turno::select('id')->where('turnos',$request->turno)->get();
-        
-        
+
+
         Secretaria::create([
             'ci' => $request->ci,
             'apellidos' => $request->apellidos,
@@ -71,9 +80,9 @@ class SecretariaController extends Controller
             'f_nac' => $request->f_nac,
             'cel' => $request->cel,
             'salario_id' => $salarioRecup[0]["id"],
-            'turnos_id' => $turnoRecup[0]["id"],
+            'turnos_id' => $request->turno,
         ]);
-        
+
         $secretariaRecup = Secretaria::where("ci",$request->ci)->get();
 
         User::create([
@@ -122,14 +131,13 @@ class SecretariaController extends Controller
      */
     public function update(Request $request, $secretarias)
     {
-        $turnoRecup = Turno::select('id')->where('turnos',$request->turno)->get();
         $secretaria=Secretaria::find($secretarias);//where('id',$secretarias)->get();
         $secretaria->ci=$request->ci;
         $secretaria->apellidos=$request->apellidos;
         $secretaria->nombres=$request->nombres;
         $secretaria->f_nac=$request->f_nac;
         $secretaria->cel=$request->cel;
-        $secretaria->turnos_id=$turnoRecup[0]["id"];
+        $secretaria->turnos_id=$request->turno;
         $secretaria->save();
         return redirect(route("secretaria.index"))->with("success", __("¡Secretaria Actualizada!"));
     }
@@ -140,8 +148,9 @@ class SecretariaController extends Controller
      * @param  \App\Models\Secretaria  $secretaria
      * @return \Illuminate\Http\Response
      */
-    public function destroy($secretarias)
+    public function destroy(Secretaria $secretaria)
     {
+        echo $secretaria;
     }
-    
+
 }

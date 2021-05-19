@@ -147,8 +147,13 @@
             </div>
             <div class="md:w-1/3">
                 <select name="turno" id="turno" class="form-select form-select-lg mb-3">
-                    <option value="Mañana" selected>Mañana</option>
-                    <option value="Tarde">Tarde</option>
+                    @if($secretaria->turnos_id == 1)
+                        <option value="1" selected> {{ __("08:30 - 14:30") }}</option>
+                        <option value="2"> {{ __("14:30 - 20:30") }}</option>
+                    @else
+                        <option value="1"> {{ __("08:30 - 14:30") }}</option>
+                        <option value="2" selected> {{ __("14:30 - 20:30") }}</option>
+                    @endif
                 </select>
             </div>
         </div>

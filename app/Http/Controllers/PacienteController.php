@@ -59,7 +59,7 @@ class PacienteController extends Controller
         ]);
 
         $usuario=User::where("id",auth()->id())->get();
-        
+
         Paciente::insert([
             'ci' => $request->carnetidentidad,
             'apellidos' => $request->apellidos,

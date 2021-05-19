@@ -33,20 +33,41 @@
         </tr>
     </thead>
     <tbody>
-        @forelse($secretaria as $secretarias)
+        @forelse($secretarias as $secretaria)
             <tr>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->ci }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->apellidos }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->nombres }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->f_nac }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->cel }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->salarios->Salario }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretarias->turnos->turnos }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretaria->ci }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretaria->apellidos }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretaria->nombres }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretaria->f_nac }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretaria->cel }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretaria->salarios->Salario }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretaria->turnos->turnos }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
                     <div class="inline-flex">
-                        <a href="{{ route('secretaria.edit', $secretarias) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+                        <a href="{{ route('secretaria.edit', $secretaria) }}"
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+                        >
                             {{ __("Modificar") }}
                         </a>
+                        <a
+                            href="#"
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+                            onclick="
+                                event.preventDefault();
+                                document.getElementById('delete-secretaria-{{ $secretaria->id }}-form').submit();
+                            "
+                        >
+                            {{ __("Eliminar") }}
+                        </a>
+                        <form
+                            id="delete-secretaria-{{ $secretaria->id }}-form"
+                            method="POST"
+                            action="{{ route('secretaria.destroy', ['secretarium' => $secretaria]) }}"
+                            class="hidden"
+                        >
+                            @method("DELETE")
+                            @csrf
+                        </form>
                     </div>
                 </td>
             </tr>
