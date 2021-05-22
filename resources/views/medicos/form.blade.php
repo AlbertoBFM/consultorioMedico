@@ -137,7 +137,7 @@
             @enderror
         </div>
     </div>
-
+    @if(!isset($update))
     <!-- SELECCIÓN ESPECIALIDAD -->
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3">
@@ -149,15 +149,12 @@
                 <select name="especialidad" id="especialidad" class="form-select form-select-lg mb-3">
                     <option value="0"> {{ __("Sin Especialidad") }}</option>
                     @foreach($especialidades as $especialidad)
-                        @if( $medico->especialidad_id == $especialidad->id)
-                            <option value="{{ $especialidad->id }}" selected> {{ $especialidad->nombre_especialidad }}</option>
-                        @else
-                            <option value="{{ $especialidad->id }}"> {{ $especialidad->nombre_especialidad }}</option>
-                        @endif
+                        <option value="{{ $especialidad->id }}"> {{ $especialidad->nombre_especialidad }}</option>
                     @endforeach
                 </select>
             </div>
         </div>
+    @endif
     <!-- SELECCIÓN TURNO -->
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3">
@@ -168,10 +165,10 @@
             <div class="md:w-1/3">
                 <select name="turno" id="turno" class="form-select form-select-lg mb-3">
                     @foreach($turnos as $turno)
-                        @if( $medico->turnos_id == $turno->id && $turno->turnos!='Mañana' && $turno->turnos!='Tarde')
-                            <option value="{{ $turno->turnos }}" selected> {{ $turno->turnos }}</option>
-                        @elseif($turno->turnos != 'Mañana' && $turno->turnos != 'Tarde')
-                            <option value="{{ $turno->turnos }}"> {{ $turno->turnos }}</option>
+                        @if($medico->turnos_id == $turno->id)
+                            <option value="{{ $turno->id }}" selected> {{ $turno->turnos }}</option>
+                        @elseif($turno->id != 1 && $turno->id != 2)
+                            <option value="{{ $turno->id }}"> {{ $turno->turnos }}</option>
                         @endif
                     @endforeach
                 </select>

@@ -1,7 +1,7 @@
 @extends('layouts.pacientes')
 @section('content')
 <div class="w-full max-w-xs mt-20 m-auto">
-        <form 
+        <form
             class="bg-white shadow-md rounded px-8 pt-10 pb-8 mb-4"
             method="POST"
             action="{{$ruta}}"

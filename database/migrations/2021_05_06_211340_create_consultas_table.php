@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateConsultasTable extends Migration
 {
     /**
-     * Run the migrations. 
+     * Run the migrations.
      *
      * @return void
      */
@@ -17,11 +17,11 @@ class CreateConsultasTable extends Migration
             $table->id();
             $table->string('motivo_consulta');
             $table->unsignedBigInteger('medico_id');
-            $table->foreign('medico_id')->references('id')->on('medicos')->onDelete('cascade');
+            $table->foreign('medico_id')->references('id')->on('medicos');
             $table->unsignedBigInteger('paciente_id');
-            $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('cascade');
+            $table->foreign('paciente_id')->references('id')->on('pacientes');
             $table->unsignedBigInteger('secretaria_id');
-            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
+            $table->foreign('secretaria_id')->references('id')->on('secretarias');
             $table->unsignedBigInteger('tipo_id');
             $table->foreign('tipo_id')->references('id')->on('tipos');
             $table->string('atentido');
