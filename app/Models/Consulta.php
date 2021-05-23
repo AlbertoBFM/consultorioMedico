@@ -21,4 +21,12 @@ class Consulta extends Model
     public function tipos(){
         return $this->belongsTo(Tipo::class, 'tipo_id');
     }
+
+    public function medico(){
+        return $this->belongsTo(Medico::class, 'medico_id');
+    }
+    public function paciente(){
+        return $this->belongsTo(Paciente::class, 'paciente_id');
+    }
+
 }

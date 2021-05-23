@@ -16,8 +16,8 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                     CARNET DE IDENTIDAD
                 </label>
-                <input name="carnetidentidad" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="{{$ci}}">
-                @error('carnetidentidad')
+                <input name="ci" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" value="{{$ci}}">
+                @error('ci')
                 <div role="alert">
                     <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
                         Ojo!!!
@@ -33,7 +33,7 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                     NOMBRES
                 </label>
-                <input name="nombres" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="{{$nombre}}">
+                <input name="nombres" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" value="{{$nombre}}">
                 @error('nombres')
                 <div role="alert">
                     <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
@@ -50,7 +50,7 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                     APELLIDOS
                 </label>
-                <input name="apellidos" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="{{$apellido}}">
+                <input name="apellidos" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" value="{{$apellido}}">
                 @error('apellidos')
                 <div role="alert">
                     <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
@@ -91,13 +91,17 @@
                 <select name='sexo' class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                     @isset($actualizar)
                         @if($actualizar=='M')
-                            <option selected="true" disabled="disabled">{{ __('FEMENINO') }}</option>
+                            <option value="M" selected>MASCULINO</option>
+                            <option value="F">FEMENINO</option>
                         @else
-                            <option selected="true" disabled="disabled">{{ __('MASCULINO') }}</option>
+                            <option value="M">MASCULINO</option>
+                            <option value="F" selected>FEMENINO</option>
                         @endif
+                    @else
+                        <option value="M">MASCULINO</option>
+                        <option value="F">FEMENINO</option>
                     @endisset
-                    <option value="V">MASCULINO</option>
-                    <option value="M">FEMENINO</option>
+
                 </select>
                 @error('sexo')
                 <div role="alert">
@@ -115,7 +119,7 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                     CELULAR
                 </label>
-                <input name="celular" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="number" placeholder="{{$celular}}">
+                <input name="celular" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="number" value="{{$celular}}">
                 @error('celular')
                 <div role="alert">
                     <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
