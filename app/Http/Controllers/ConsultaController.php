@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Consulta;
+use App\Models\Especialidad;
 use App\Models\Paciente;
 use App\Models\Medico;
 use App\Models\Tipo;
@@ -16,12 +17,34 @@ class ConsultaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $usuario = User::where("id",auth()->id())->get();
-        $consultas = Consulta::where('consultas.secretaria_id',$usuario[0]['secretaria_id'])->get();
+        $tipos = Especialidad::all();
 
-        return view('consultas.index', compact("consultas"));
+        $mot = trim($request->get('mot'));
+        $cimedico = trim($request->get('cimedico'));
+        $cipaciente = trim($request->get('cipaciente'));
+        $tipo2 = trim($request->get('tipo2'));
+        $resp = trim($request->get('resp'));
+
+
+        $consultas = Consulta::join('medicos', 'medico_id', '=', 'medicos.id')
+                                    ->join('pacientes', 'paciente_id', '=', 'pacientes.id')
+                                    ->join('tipos', 'tipo_id', '=', 'tipos.id')
+                                    ->where('consultas.secretaria_id',$usuario[0]['secretaria_id'])
+                                    ->where('motivo_consulta','LIKE','%'.$mot.'%')
+                                    ->where('medicos.ci','LIKE','%'.$cimedico.'%')
+                                    ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
+                                    ->where(function ($query) {
+                                        $query->select('nombre_especialidad')
+                                                ->from('especialidades')
+                                                ->whereColumn('tipos.especialidad_id', 'especialidades.id');
+                                    },'LIKE','%'.$tipo2.'%')
+                                    ->where('atentido','LIKE','%'.$resp.'%')
+                                    ->paginate(8);
+
+        return view('consultas.index', compact("consultas","mot","cimedico","cipaciente","tipo2","resp","tipos"));
     }
 
     /**

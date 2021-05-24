@@ -23,10 +23,25 @@ class SecretariaController extends Controller
     /*public function __contruct(){
         $this->middleware("auth");
     }*/
-    public function index()
+    public function index(Request $request)
     {
-        $secretarias = Secretaria::all();
-        return view('secretaria.index',compact('secretarias'));
+        // $secretarias = Secretaria::all();
+
+        //Esto es para implementar la busqueda
+        $ci = trim($request->get('ci'));
+        $nombre = trim($request->get('nombre'));
+        $apellido = trim($request->get('apellido'));
+        $especialidad = trim($request->get('especialidad'));
+        $turno2 = trim($request->get('turno2'));
+
+        $secretarias = Secretaria::join('turnos', 'turnos_id', '=', 'turnos.id')
+                                ->where('ci','LIKE','%'.$ci.'%')
+                                ->where('nombres','LIKE','%'.$nombre.'%')
+                                ->where('apellidos','LIKE','%'.$apellido.'%')
+                                ->where('turnos','LIKE','%'.$turno2.'%')
+                                ->paginate(8);
+
+        return view('secretaria.index',compact("secretarias","ci","nombre","apellido","turno2"));
     }
 
     /**
@@ -102,7 +117,8 @@ class SecretariaController extends Controller
      */
     public function show(Secretaria $secretaria)
     {
-        //
+        $secretaria1=Secretaria::where('id',$secretaria)->get();
+        return $secretaria1;
     }
 
     /**

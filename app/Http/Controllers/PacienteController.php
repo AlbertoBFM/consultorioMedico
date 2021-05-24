@@ -17,11 +17,23 @@ class PacienteController extends Controller
     public function __contruct(){
         $this->middleware("auth");
     }
-    public function index()
+    public function index(Request $request)
     {
+        $ci = trim($request->get('ci'));
+        $nombre = trim($request->get('nombre'));
+        $apellido = trim($request->get('apellido'));
+        $sexo2 = trim($request->get('sexo2'));
+
         $usuario=User::where("id",auth()->id())->get();
-        $pacientes=Paciente::where("secretaria_id",$usuario[0]['secretaria_id'])->paginate(5);
-        return view("paciente.index",compact('pacientes'));
+
+        $pacientes=Paciente::where("secretaria_id",$usuario[0]['secretaria_id'])
+                                ->where('ci','LIKE','%'.$ci.'%')
+                                ->where('nombres','LIKE','%'.$nombre.'%')
+                                ->where('apellidos','LIKE','%'.$apellido.'%')
+                                ->where('sexo','LIKE','%'.$sexo2.'%')
+                                ->paginate(8);
+
+        return view("paciente.index",compact('pacientes','ci','nombre','apellido','sexo2'));
     }
 
     /**
@@ -33,10 +45,10 @@ class PacienteController extends Controller
     {
         $boton=__('INSERTAR');
         $ruta=route('paciente.store');
-        $ci=__('INGRESA EL CARNET DE IDENTIDAD');
-        $nombre=__('INGRESA LOS NOMBRES');
-        $apellido=__('INGRESA LOS APELLIDOS');
-        $celular=__('INGRESA EL NUMERO DE CELULAR');
+        $ci=__('');
+        $nombre=__('');
+        $apellido=__('');
+        $celular=__('');
         return view("paciente.form",compact('boton','ruta','ci','nombre','apellido','celular'));
     }
 
@@ -50,18 +62,17 @@ class PacienteController extends Controller
     {
         echo $request->nombres;
         $this->validate($request, [
-            "carnetidentidad" => "required",
+            "ci" => "required|unique:pacientes|min:8",
             "nombres" => "required",
             "apellidos" => "required",
             "fechanacimiento" => "required",
-            "sexo" => "required",
             "celular" => "required",
         ]);
 
         $usuario=User::where("id",auth()->id())->get();
 
         Paciente::insert([
-            'ci' => $request->carnetidentidad,
+            'ci' => $request->ci,
             'apellidos' => $request->apellidos,
             'nombres' => $request->nombres,
             'f_nac' => $request->fechanacimiento,
@@ -113,7 +124,7 @@ class PacienteController extends Controller
     public function update(Request $request, Paciente $paciente)
     {
         $pacientes=Paciente::find($paciente->id);
-        $pacientes->ci=$request->carnetidentidad;
+        $pacientes->ci=$request->ci;
         $pacientes->apellidos=$request->apellidos;
         $pacientes->nombres=$request->nombres;
         $pacientes->f_nac=$request->fechanacimiento;
@@ -131,9 +142,14 @@ class PacienteController extends Controller
      */
     public function destroy(Paciente $paciente)
     {
-        $mensaje="El usuario ".$paciente->nombres." $paciente->apellidos se elimino exitosamente!!!";
-        $pacientes = Paciente::find($paciente->id);
-        $pacientes->delete();
+        try {
+            $mensaje="El usuario ".$paciente->nombres." $paciente->apellidos se elimino exitosamente!!!";
+            $pacientes = Paciente::find($paciente->id);
+            $pacientes->delete();
+        } catch (\Throwable $th) {
+            $mensaje = "No puede borrar este paciente";
+        }
+
         return redirect(route('paciente.index'))->with("success",$mensaje);
     }
 }

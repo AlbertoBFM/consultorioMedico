@@ -24,10 +24,44 @@ class MedicoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $medicos = Medico::paginate(8);
-        return view("medicos.index", compact("medicos"));
+        // $medicos = Medico::paginate(8);
+        $especialidades = Especialidad::all();
+        $turnos = Turno::all();
+        //Esto es para implementar la busqueda
+        $ci = trim($request->get('ci'));
+        $nombre = trim($request->get('nombre'));
+        $apellido = trim($request->get('apellido'));
+        $especialidad = trim($request->get('especialidad'));
+        $turno = trim($request->get('turno'));
+
+        if($especialidad == "")
+            $medicos = Medico::join('turnos', 'turnos_id', '=', 'turnos.id')
+                            ->where('ci','LIKE','%'.$ci.'%')
+                            ->where('nombres','LIKE','%'.$nombre.'%')
+                            ->where('apellidos','LIKE','%'.$apellido.'%')
+                            ->where('turnos','LIKE','%'.$turno.'%')
+                            ->paginate(8);
+        elseif ($especialidad == "Sin Especialidad") {
+            $medicos = Medico::join('turnos', 'turnos_id', '=', 'turnos.id')
+                            ->where('ci','LIKE','%'.$ci.'%')
+                            ->where('nombres','LIKE','%'.$nombre.'%')
+                            ->where('apellidos','LIKE','%'.$apellido.'%')
+                            ->where('turnos','LIKE','%'.$turno.'%')
+                            ->whereNull('especialidad_id')
+                            ->paginate(8);
+        }
+        else
+            $medicos = Medico::join('especialidades', 'especialidad_id', '=', 'especialidades.id')
+                            ->join('turnos', 'turnos_id', '=', 'turnos.id')
+                            ->where('ci','LIKE','%'.$ci.'%')
+                            ->where('nombres','LIKE','%'.$nombre.'%')
+                            ->where('apellidos','LIKE','%'.$apellido.'%')
+                            ->where('nombre_especialidad','LIKE','%'.$especialidad.'%')
+                            ->where('turnos','LIKE','%'.$turno.'%')
+                            ->paginate(8);
+        return view("medicos.index", compact("medicos","ci","nombre","apellido","especialidad","turno","especialidades","turnos"));
     }
 
     /**
@@ -182,12 +216,11 @@ class MedicoController extends Controller
      */
     public function destroy(Medico $medico)
     {
-        echo $medico;
-        // try {
-        //     $medico->delete();
-        // } catch (\Throwable $th) {
+        try {
+            $medico->delete();
+        } catch (\Throwable $th) {
 
-        // }
-        // return back()->with("success", __("Medico Eliminado"));
+        }
+        return back()->with("success", __("Medico Eliminado"));
     }
 }
