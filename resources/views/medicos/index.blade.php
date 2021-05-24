@@ -7,14 +7,13 @@
             {{ __("Registrar Médico") }}
         </a>
     </div>
-</div>
-<!-- BUSQUEDA -->
+    <!-- BUSQUEDA -->
 <div class="flex justify-center flex-wrap bg-gray-200 p-4 mt-5">
     <form
         action="{{ route('medico.index') }}"
         method="GET"
     >
-    <div class="md:flex md:items-center mb-6">
+    <div class="md:flex md:items-center ">
         <label class="block font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
             CI
         </label>
@@ -62,8 +61,17 @@
     </div>
     </form>
 </div>
+</div>
+
+<!-- REPORTE -->
+<div class="flex justify-center flex-wrap">
+    <a href="{{ route('descargarPDFMedicos') }}" target="_blank" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 mt-4 border border-blue-500 hover:border-transparent rounded">
+        {{ __("Generar Reporte") }}
+    </a>
+</div>
+<br>
 <!-- LISTA -->
-<table class="border-collapse border text-center border-gray-500 mt-4" style="width:100%">
+<table class="border-collapse border text-center border-gray-500" style="width:100%">
     <thead>
         <tr>
             <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("CI") }}</th>

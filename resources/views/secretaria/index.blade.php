@@ -59,6 +59,13 @@
     </div>
     </form>
 </div>
+<!-- REPORTE -->
+<div class="flex justify-center flex-wrap">
+    <a href="{{ route('descargarPDFSecretarias') }}" target="_blank" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 mt-4 border border-blue-500 hover:border-transparent rounded">
+        {{ __("Generar Reporte") }}
+    </a>
+</div>
+<br>
 <!-- LISTAS -->
 <table class="border-collapse border text-center border-gray-500 mt-4" style="width:100%">
     <thead>
