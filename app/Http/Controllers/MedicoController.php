@@ -26,7 +26,7 @@ class MedicoController extends Controller
      */
     public function index(Request $request)
     {
-        // $medicos = Medico::paginate(8);
+        $medicos22 = Medico::paginate(8);
         $especialidades = Especialidad::all();
         $turnos = Turno::all();
         //Esto es para implementar la busqueda
@@ -39,6 +39,7 @@ class MedicoController extends Controller
         $turno2 = trim($request->get('turno'));
         if($especialidad == "")
             $medicos = Medico::join('turnos', 'turnos_id', '=', 'turnos.id')
+                            ->select('medicos.*','turnos.turnos')
                             ->where('ci','LIKE','%'.$ci.'%')
                             ->where('nombres','LIKE','%'.$nombre.'%')
                             ->where('apellidos','LIKE','%'.$apellido.'%')
@@ -46,6 +47,7 @@ class MedicoController extends Controller
                             ->paginate(8);
         elseif ($especialidad == "Sin Especialidad") {
             $medicos = Medico::join('turnos', 'turnos_id', '=', 'turnos.id')
+                            ->select('medicos.*','turnos.turnos')
                             ->where('ci','LIKE','%'.$ci.'%')
                             ->where('nombres','LIKE','%'.$nombre.'%')
                             ->where('apellidos','LIKE','%'.$apellido.'%')
@@ -56,6 +58,7 @@ class MedicoController extends Controller
         else
             $medicos = Medico::join('especialidades', 'especialidad_id', '=', 'especialidades.id')
                             ->join('turnos', 'turnos_id', '=', 'turnos.id')
+                            ->select('medicos.*','turnos.turnos','especialidades.nombre_especialidad')
                             ->where('ci','LIKE','%'.$ci.'%')
                             ->where('nombres','LIKE','%'.$nombre.'%')
                             ->where('apellidos','LIKE','%'.$apellido.'%')

@@ -47,6 +47,5 @@
 
         @yield('content')
     </div>
-    <script src="../js/consulta.js"></script>
 </body>
 </html>

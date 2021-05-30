@@ -15,7 +15,11 @@
             action="{{route('consulta.store')}}"
         >
             @csrf
-
+            <div class="flex items-center justify-between mb-5">
+                <a href="{{route('paciente.index')}}" class="transition duration-500 ease-in-out hover:bg-red-600 transform hover:scale-102 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    {{__('Registrar Paciente')}}
+                </a>
+            </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                     SELECCIONAR PACIENTE
@@ -65,99 +69,84 @@
                     <div class="my-5 flex">
                         <div class="mr-10">
                             <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio" name="radio" value="1" checked>
+                                <input id="general" type="radio" class="form-radio" name="tipo" value="1" checked>
                                 <span class="ml-2">General</span>
                             </label>
                         </div>
                         <div class="mr-10">
                             <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio" name="radio" value="3">
+                                <input id="reconsulta" type="radio" class="form-radio" name="tipo" value="2">
                                 <span class="ml-2">Reconsulta</span>
                             </label>
                         </div>
                         <div class="mr-10">
                             <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio" name="radio" value="2">
+                                <input id="domicilio" type="radio" class="form-radio" name="tipo" value="3">
                                 <span class="ml-2">Domicilio</span>
                             </label>
                         </div>
                         <div class="mr-10">
                             <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio" name="radio" value="3">
+                                <input id="emergencia" type="radio" class="form-radio" name="tipo" value="4">
                                 <span class="ml-2">Emergencia</span>
                             </label>
                         </div>
                         <div class="mr-10">
                             <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio" name="radio" value="3">
+                                <input id="especialidad" type="radio" class="form-radio" name="tipo" value="5">
                                 <span class="ml-2">Especialidad</span>
                             </label>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <select name='tipos' class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                        @foreach($tipos as $tipoconsulta)
-                            <option value="{{$tipoconsulta->id}}">{{$tipoconsulta->nombre_especialidad}} - Bs. {{$tipoconsulta->precio_consulta}}</option>
+            </div>
+            <div class="mb-4 flex w-full justify-center">
+                <div class="flex-1 mr-5">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="medico">
+                        MEDICO GENERAL
+                    </label>
+                    <select name='medico_gen' class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                        @foreach($medicos as $medico)
+                            @isset($medico->especialidades->nombre_especialidad)
+                            <option
+                                value="{{$medico->id}}">
+                                {{$medico->nombres}} {{$medico->apellidos}}
+                                -
+                                {{ $medico->especialidades->nombre_especialidad }}
+                                -
+                                Turno {{$medico->turnos->turnos}}
+                            </option>
+                            @endisset
                         @endforeach
                     </select>
-
-                    @error('tipos')
-                    <div role="alert">
-                        <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                            Ojo!!!
-                        </div>
-                        <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                            <p>Ingresa datos validos</p>
-                        </div>
-                    </div>
-                    @enderror
                 </div>
-
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="medico">
-                    MEDICO
-                </label>
-                <select name='medicos' class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                    @foreach($medicos as $medico)
-                        <option
-                            value="{{$medico->id}}">
-                            {{$medico->nombres}}{{$medico->apellidos}} -
-                            @isset($medico->especialidades->nombre_especialidad)
-                                {{ $medico->especialidades->nombre_especialidad }}
-                            @else
-                                {{ __("Medico General") }}
-                            @endisset
-                            -
-                            Turno {{$medico->turnos->turnos}}
-                        </option>
-                    @endforeach
-                </select>
-                @error('medicos')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos (puede que el paciente ya exista)</p>
-                    </div>
+                <div class="flex-1 ml-5">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="medico">
+                        MEDICO ESPECIALISTA
+                    </label>
+                    <select name='medico_gen' class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                        @foreach($medicos as $medico)
+                            @if($medico->especialidad_id == null)
+                            <option
+                                value="{{$medico->id}}">
+                                {{$medico->nombres}} {{$medico->apellidos}}
+                                -
+                                {{ __("Médico General") }}
+                                -
+                                Turno {{$medico->turnos->turnos}}
+                            </option>
+                            @endif
+                        @endforeach
+                    </select>
                 </div>
-                @enderror
             </div>
-
-
             <div class="flex items-center justify-between">
                 <button type="submit" class="transition duration-500 ease-in-out hover:bg-red-600 transform hover:scale-102 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     {{__('Registrar consulta')}}
                 </button>
             </div>
 
-            <div class="flex items-center justify-between mt-5">
-                <a href="{{route('paciente.index')}}" class="transition duration-500 ease-in-out hover:bg-red-600 transform hover:scale-102 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    {{__('Registrar Paciente')}}
-                </a>
-            </div>
+
         </form>
     </div>
 @endsection

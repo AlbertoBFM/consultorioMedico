@@ -44,8 +44,8 @@
         <label for="turno" class="block font-bold md:text-right mb-1 md:mb-0 pr-4">
             {{ __("Turno") }}
         </label>
-        <input name="turno2" value="{{ $turno2 }}" list="turnoo2" class="mr-5 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="username" type="text">
-        <datalist id="turnoo2">
+        <input name="turno3" value="{{ $turno3 }}" list="turnoo3" class="mr-5 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="username" type="text">
+        <datalist id="turnoo3">
             <option value="{{ __('08:30 - 14:30') }}">
             <option value="{{ __('14:30 - 20:30') }}">
         </datalist>

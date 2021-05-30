@@ -32,16 +32,16 @@ class SecretariaController extends Controller
         $nombre = trim($request->get('nombre'));
         $apellido = trim($request->get('apellido'));
         $especialidad = trim($request->get('especialidad'));
-        $turno2 = trim($request->get('turno2'));
+        $turno3 = trim($request->get('turno3'));
 
         $secretarias = Secretaria::join('turnos', 'turnos_id', '=', 'turnos.id')
                                 ->where('ci','LIKE','%'.$ci.'%')
                                 ->where('nombres','LIKE','%'.$nombre.'%')
                                 ->where('apellidos','LIKE','%'.$apellido.'%')
-                                ->where('turnos','LIKE','%'.$turno2.'%')
+                                ->where('turnos','LIKE','%'.$turno3.'%')
                                 ->paginate(8);
 
-        return view('secretaria.index',compact("secretarias","ci","nombre","apellido","turno2"));
+        return view('secretaria.index',compact("secretarias","ci","nombre","apellido","turno3"));
     }
 
     /**
