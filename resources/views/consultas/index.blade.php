@@ -67,6 +67,7 @@
     <thead>
         <tr>
             <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("MOTIVO DE LA CONSULTA") }}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("FECHA") }}</th>
             <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("MEDICO") }}</th>
             <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("PACIENTE") }}</th>
             <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("TIPO DE CONSULTA") }}</th>
@@ -78,6 +79,7 @@
         @forelse($consultas as $consulta)
             <tr>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->motivo_consulta }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->fecha }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->medico->ci }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->paciente->ci }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">

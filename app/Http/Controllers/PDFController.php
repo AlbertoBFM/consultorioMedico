@@ -19,11 +19,43 @@ class PDFController extends Controller
         $pdf = PDF::loadView('prueba');
         return $pdf->stream('prueba.pdf');
     }
-    public function PDFMedicos(){
+    public function PDFMedicos(Request $request){
+        // $medicos = Medico::all();
+        $ci = trim($request->get('ci2'));
+        $nombre = trim($request->get('nombre2'));
+        $apellido = trim($request->get('apellido2'));
+        $especialidad = trim($request->get('especialidad2'));
+        $turno = trim($request->get('turno2'));
 
-        $medicos = Medico::all();
-
-        $pdf = PDF::loadView('medicos.reporte', compact("medicos"))->setPaper('legal', 'landscape');
+        if($especialidad == ""){
+            $medicos = Medico::join('turnos', 'turnos_id', '=', 'turnos.id')
+                            ->where('ci','LIKE','%'.$ci.'%')
+                            ->where('nombres','LIKE','%'.$nombre.'%')
+                            ->where('apellidos','LIKE','%'.$apellido.'%')
+                            ->where('turnos','LIKE','%'.$turno.'%')
+                            ->get();
+        }
+        elseif ($especialidad == "Sin Especialidad") {
+            $medicos = Medico::join('turnos', 'turnos_id', '=', 'turnos.id')
+                            ->where('ci','LIKE','%'.$ci.'%')
+                            ->where('nombres','LIKE','%'.$nombre.'%')
+                            ->where('apellidos','LIKE','%'.$apellido.'%')
+                            ->where('turnos','LIKE','%'.$turno.'%')
+                            ->whereNull('especialidad_id')
+                            ->get();
+        }
+        else{
+            $medicos = Medico::join('especialidades', 'especialidad_id', '=', 'especialidades.id')
+                            ->join('turnos', 'turnos_id', '=', 'turnos.id')
+                            ->where('ci','LIKE','%'.$ci.'%')
+                            ->where('nombres','LIKE','%'.$nombre.'%')
+                            ->where('apellidos','LIKE','%'.$apellido.'%')
+                            ->where('nombre_especialidad','LIKE','%'.$especialidad.'%')
+                            ->where('turnos','LIKE','%'.$turno.'%')
+                            ->get();
+        }
+        // echo $medicos;
+        $pdf = PDF::loadView('medicos.reporte', compact("medicos","ci","nombre","apellido","especialidad","turno"))->setPaper('legal', 'landscape');
         return $pdf->stream('medicos.pdf');
     }
     public function PDFSecretarias(){

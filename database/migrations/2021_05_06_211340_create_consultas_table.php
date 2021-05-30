@@ -16,6 +16,7 @@ class CreateConsultasTable extends Migration
         Schema::create('consultas', function (Blueprint $table) {
             $table->id();
             $table->string('motivo_consulta');
+            $table->datetime("fecha");
             $table->unsignedBigInteger('medico_id');
             $table->foreign('medico_id')->references('id')->on('medicos');
             $table->unsignedBigInteger('paciente_id');

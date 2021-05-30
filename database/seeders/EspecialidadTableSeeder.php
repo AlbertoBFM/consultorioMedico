@@ -15,11 +15,11 @@ class EspecialidadTableSeeder extends Seeder
     {
         return \DB::table('especialidades')->insert([
             [
-                "nombre_especialidad" => "Pediatría",
+                "nombre_especialidad" => "Ginecología",
                 "created_at" => now()
             ],
             [
-                "nombre_especialidad" => "Gineco-obstetricia",
+                "nombre_especialidad" => "Ecografía",
                 "created_at" => now()
             ],
             [

@@ -65,7 +65,7 @@
                 @endisset
                 </td>
                 <td>{{ $medico->salarios->Salario }}</td>
-                <td>{{ $medico->turnos->turnos }}</td>
+                <td>{{ $medico->turnos }}</td>
             </tr>
         @empty
             <tr>

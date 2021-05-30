@@ -34,8 +34,9 @@ class MedicoController extends Controller
         $nombre = trim($request->get('nombre'));
         $apellido = trim($request->get('apellido'));
         $especialidad = trim($request->get('especialidad'));
+        $especialidad2 = trim($request->get('especialidad'));
         $turno = trim($request->get('turno'));
-
+        $turno2 = trim($request->get('turno'));
         if($especialidad == "")
             $medicos = Medico::join('turnos', 'turnos_id', '=', 'turnos.id')
                             ->where('ci','LIKE','%'.$ci.'%')
@@ -61,7 +62,7 @@ class MedicoController extends Controller
                             ->where('nombre_especialidad','LIKE','%'.$especialidad.'%')
                             ->where('turnos','LIKE','%'.$turno.'%')
                             ->paginate(8);
-        return view("medicos.index", compact("medicos","ci","nombre","apellido","especialidad","turno","especialidades","turnos"));
+        return view("medicos.index", compact("medicos","ci","nombre","apellido","especialidad","especialidad2","turno","turno2","especialidades","turnos"));
     }
 
     /**

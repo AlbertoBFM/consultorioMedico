@@ -83,6 +83,7 @@ class ConsultaController extends Controller
         $paciente=Paciente::query()->select(['id'])->where("ci",$request->pacientess)->get();
         Consulta::insert([
             'motivo_consulta' => $request->motivoconsulta,
+            'fecha' => now(),
             'medico_id' => $request->medicos,
             'paciente_id' => $paciente[0]['id'],
             'secretaria_id' => $usuario[0]['secretaria_id'],

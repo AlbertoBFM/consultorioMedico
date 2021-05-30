@@ -61,23 +61,59 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="tipo">
                     TIPO DE LA CONSULTA
                 </label>
-
-                <select name='tipos' class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                    @foreach($tipos as $tipoconsulta)
-                        <option value="{{$tipoconsulta->id}}">{{$tipoconsulta->nombre_especialidad}} - Bs. {{$tipoconsulta->precio_consulta}}</option>
-                    @endforeach
-                </select>
-
-                @error('tipo')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos</p>
+                <div class="block">
+                    <div class="my-5 flex">
+                        <div class="mr-10">
+                            <label class="inline-flex items-center">
+                                <input type="radio" class="form-radio" name="radio" value="1" checked>
+                                <span class="ml-2">General</span>
+                            </label>
+                        </div>
+                        <div class="mr-10">
+                            <label class="inline-flex items-center">
+                                <input type="radio" class="form-radio" name="radio" value="3">
+                                <span class="ml-2">Reconsulta</span>
+                            </label>
+                        </div>
+                        <div class="mr-10">
+                            <label class="inline-flex items-center">
+                                <input type="radio" class="form-radio" name="radio" value="2">
+                                <span class="ml-2">Domicilio</span>
+                            </label>
+                        </div>
+                        <div class="mr-10">
+                            <label class="inline-flex items-center">
+                                <input type="radio" class="form-radio" name="radio" value="3">
+                                <span class="ml-2">Emergencia</span>
+                            </label>
+                        </div>
+                        <div class="mr-10">
+                            <label class="inline-flex items-center">
+                                <input type="radio" class="form-radio" name="radio" value="3">
+                                <span class="ml-2">Especialidad</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
-                @enderror
+                <div>
+                    <select name='tipos' class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                        @foreach($tipos as $tipoconsulta)
+                            <option value="{{$tipoconsulta->id}}">{{$tipoconsulta->nombre_especialidad}} - Bs. {{$tipoconsulta->precio_consulta}}</option>
+                        @endforeach
+                    </select>
+
+                    @error('tipos')
+                    <div role="alert">
+                        <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                            Ojo!!!
+                        </div>
+                        <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                            <p>Ingresa datos validos</p>
+                        </div>
+                    </div>
+                    @enderror
+                </div>
+
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="medico">

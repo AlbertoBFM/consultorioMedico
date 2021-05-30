@@ -16,7 +16,7 @@ class CreateTiposTable extends Migration
         Schema::create('tipos', function (Blueprint $table) {
             $table->id();
             $table->decimal('precio_consulta',9,2);
-            $table->unsignedBigInteger('especialidad_id');
+            $table->unsignedBigInteger('especialidad_id')->nullable();
             $table->foreign('especialidad_id')->references('id')->on('especialidades')->onDelete('cascade');
             $table->timestamps();
         });
