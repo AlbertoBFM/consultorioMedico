@@ -1,17 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ConsultaController;    
-use App\Http\Controllers\DiagnosticoController; 
-use App\Http\Controllers\EspecialidadController;
-use App\Http\Controllers\JefeMedicoController;  
-use App\Http\Controllers\MedicoController;      
-use App\Http\Controllers\PacienteController;    
-use App\Http\Controllers\SalarioController;     
-use App\Http\Controllers\SecretariaController;  
-use App\Http\Controllers\TipoController;         
-use App\Http\Controllers\TurnoController;        
 
+use App\Http\Controllers\ConsultaController;
+use App\Http\Controllers\DiagnosticoController;
+use App\Http\Controllers\EspecialidadController;
+use App\Http\Controllers\JefeMedicoController;
+use App\Http\Controllers\MedicoController;
+use App\Http\Controllers\PacienteController;
+use App\Http\Controllers\SalarioController;
+use App\Http\Controllers\SecretariaController;
+use App\Http\Controllers\TipoController;
+use App\Http\Controllers\TurnoController;
+use App\Http\Controllers\PDFController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,6 +35,16 @@ Route::get('/secretariaprincipal', function () {
 Auth::routes();
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/pdf', 'PDFController@PDF')->name('descargarPDF');
+
+Route::get('/pdfmedicos', [\App\Http\Controllers\PDFController::class, 'PDFMedicos'])->name('descargarPDFMedicos');
+Route::get('/pdfsecretarias', [\App\Http\Controllers\PDFController::class, 'PDFSecretarias'])->name('descargarPDFSecretarias');
+Route::get('/pdfpacientes', [\App\Http\Controllers\PDFController::class, 'PDFPacientes'])->name('descargarPDFPacientes');
+Route::get('/pdfconsultas', [\App\Http\Controllers\PDFController::class, 'PDFConsultas'])->name('descargarPDFConsultas');
+
+//otro
+Route::get('/medicos/pdf', [MedicoController::class, 'createPDF']);
 
 Route::resource('consulta',ConsultaController::class);
 Route::resource('diagnostico',DiagnosticoController::class);
