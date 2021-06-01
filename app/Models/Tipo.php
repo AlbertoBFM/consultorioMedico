@@ -19,6 +19,6 @@ class Tipo extends Model
     }
 
     public function especialidades(){
-        return $this->belongsTo(Especialidad::class, 'id');
+        return $this->belongsTo(Especialidad::class, 'especialidad_id');
     }
 }

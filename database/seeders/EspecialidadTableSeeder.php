@@ -22,14 +22,14 @@ class EspecialidadTableSeeder extends Seeder
                 "nombre_especialidad" => "Ecografía",
                 "created_at" => now()
             ],
-            [
-                "nombre_especialidad" => "Cirugía General",
-                "created_at" => now()
-            ],
-            [
-                "nombre_especialidad" => "Medicina Interna",
-                "created_at" => now()
-            ]
+            // [
+            //     "nombre_especialidad" => "Cirugía General",
+            //     "created_at" => now()
+            // ],
+            // [
+            //     "nombre_especialidad" => "Medicina Interna",
+            //     "created_at" => now()
+            // ]
         ]);
     }
 }

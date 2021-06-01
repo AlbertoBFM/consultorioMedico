@@ -83,7 +83,19 @@
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->medico->ci }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->paciente->ci }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
-                    {{ $consulta->tipos->especialidades->nombre_especialidad}}
+                    @isset($consulta->tipos->especialidades->nombre_especialidad)
+                        {{ $consulta->tipos->especialidades->nombre_especialidad }}
+                    @else
+                        @if($consulta->tipo_id == 1)
+                            {{ __("General") }}
+                        @elseif($consulta->tipo_id == 2)
+                            {{ __("Reconsulta") }}
+                        @elseif($consulta->tipo_id == 3)
+                            {{ __("Domicilio") }}
+                        @elseif($consulta->tipo_id == 4)
+                            {{ __("Emergencia") }}
+                        @endif
+                    @endisset
                 </td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->atentido }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
@@ -116,11 +128,17 @@
         @empty
             <tr>
                 <td class="border-solid border-2 border-gray-500 px-4 py-2" colspan="5">
-                    {{ __("LISTA DE MÉDICOS VACIA") }}
+                    {{ __("LISTA DE CONSULTAS VACIA") }}
                 </td>
             </tr>
         @endforelse
     </tbody>
 </table>
-
+@if($consulta->count() != null)
+    @if($consulta->count())
+        <div class="mt-4">
+            {{ $consultas->links() }}
+        </div>
+    @endif
+@endif
 @endsection

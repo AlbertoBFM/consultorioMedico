@@ -32,18 +32,19 @@ class ConsultaController extends Controller
         $consultas = Consulta::join('medicos', 'medico_id', '=', 'medicos.id')
                                     ->join('pacientes', 'paciente_id', '=', 'pacientes.id')
                                     ->join('tipos', 'tipo_id', '=', 'tipos.id')
+                                    // ->select('consultas.*','medicos.ci','pacientes.ci','especialidad.*',)
                                     ->where('consultas.secretaria_id',$usuario[0]['secretaria_id'])
                                     ->where('motivo_consulta','LIKE','%'.$mot.'%')
                                     ->where('medicos.ci','LIKE','%'.$cimedico.'%')
                                     ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
-                                    ->where(function ($query) {
-                                        $query->select('nombre_especialidad')
-                                                ->from('especialidades')
-                                                ->whereColumn('tipos.especialidad_id', 'especialidades.id');
-                                    },'LIKE','%'.$tipo2.'%')
+                                    // ->orwhere(function ($query) {
+                                    //     $query->select('nombre_especialidad')
+                                    //             ->from('especialidades')
+                                    //             ->whereColumn('tipos.especialidad_id', 'especialidades.id');
+                                    // },'LIKE','%'.$tipo2.'%')
                                     ->where('atentido','LIKE','%'.$resp.'%')
+                                    ->orderByDesc('fecha')
                                     ->paginate(8);
-
         return view('consultas.index', compact("consultas","mot","cimedico","cipaciente","tipo2","resp","tipos"));
     }
 
@@ -81,15 +82,45 @@ class ConsultaController extends Controller
     {
         $usuario=User::where("id",auth()->id())->get();
         $paciente=Paciente::query()->select(['id'])->where("ci",$request->pacientess)->get();
-        Consulta::insert([
-            'motivo_consulta' => $request->motivoconsulta,
-            'fecha' => now(),
-            'medico_id' => $request->medicos,
-            'paciente_id' => $paciente[0]['id'],
-            'secretaria_id' => $usuario[0]['secretaria_id'],
-            'tipo_id' => $request->tipos,
-            'atentido' => "NO"
-        ]);
+        $recupMedic = $request->medico_esp;
+        //SI CONSULTA SIN ESPECIALIDAD
+        if ($request->tipo == 1 || $request->tipo == 2 || $request->tipo == 3 || $request->tipo == 4) {
+            if($request->tipo == 2)//SI ES RECONSULTA
+                $medico_id = $request->medico_esp;
+            else
+                $medico_id = $request->medico_gen;
+            Consulta::insert([
+                'motivo_consulta' => $request->motivoconsulta,
+                'fecha' => now(),
+                'paciente_id' => $paciente[0]['id'],
+                'tipo_id' => $request->tipo,
+                'medico_id' => $medico_id,
+                'secretaria_id' => $usuario[0]['secretaria_id'],
+                'atentido' => "NO"
+            ]);
+        }
+        else {
+            //PARA SELECCIONAR EL TIPO RELACIONADO A LA ESPECIALIDAD DEL MÉDICO
+            $nombre_esp = Medico::join('especialidades', 'especialidad_id', '=', 'especialidades.id')
+                                        ->select('especialidades.nombre_especialidad')
+                                        ->where ('medicos.id','=',$recupMedic)
+                                        ->get();
+            $tipo_id = Tipo::join('especialidades', 'especialidad_id', '=', 'especialidades.id')
+                            ->select('tipos.id')
+                            ->where('especialidades.nombre_especialidad','=',$nombre_esp[0]["nombre_especialidad"])
+                            ->get();
+            //INSERSIÓN
+            Consulta::insert([
+                'motivo_consulta' => $request->motivoconsulta,
+                'fecha' => now(),
+                'paciente_id' => $paciente[0]['id'],
+                'tipo_id' => $tipo_id[0]["id"],
+                'medico_id' => $request->medico_esp,
+                'secretaria_id' => $usuario[0]['secretaria_id'],
+                'atentido' => "NO"
+            ]);
+        }
+
         return \redirect(route("consulta.create"))->with("success",__("Se registro la consulta Exitosamente'"));
     }
 
