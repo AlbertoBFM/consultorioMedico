@@ -51,7 +51,19 @@
                 <td>{{ $consulta->medico->ci }}</td>
                 <td>{{ $consulta->paciente->ci }}</td>
                 <td>
-                    {{ $consulta->tipos->especialidades->nombre_especialidad}}
+                    @isset($consulta->tipos->especialidades->nombre_especialidad)
+                        {{ $consulta->tipos->especialidades->nombre_especialidad }}
+                    @else
+                        @if($consulta->tipo_id == 1)
+                            {{ __("General") }}
+                        @elseif($consulta->tipo_id == 2)
+                            {{ __("Reconsulta") }}
+                        @elseif($consulta->tipo_id == 3)
+                            {{ __("Domicilio") }}
+                        @elseif($consulta->tipo_id == 4)
+                            {{ __("Emergencia") }}
+                        @endif
+                    @endisset
                 </td>
                 <td>{{ $consulta->atentido }}</td>
             </tr>

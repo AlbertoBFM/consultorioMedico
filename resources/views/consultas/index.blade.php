@@ -1,20 +1,20 @@
 @extends("layouts.app")
 @section('content')
-<div class="flex justify-center flex-wrap bg-gray-200 p-4 mt-5">
+<div class="flex justify-center flex-wrap bg-gray-200 p-4">
     <div class="text-center">
-        <h1 class="mb-5 text-4xl">{{ __("Lista de Consultas") }}</h1>
+        <h1 class="mb-10 text-4xl">{{ __("Lista de Consultas") }}</h1>
         <a href="{{ route('consulta.create') }}" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded">
             {{ __("Registrar Consulta") }}
         </a>
     </div>
 </div>
 <!-- BUSQUEDA -->
-<div class="flex justify-center flex-wrap bg-gray-200 p-4 mt-5">
+<div class="flex justify-center flex-wrap bg-gray-200 p-4">
     <form
         action="{{ route('consulta.index') }}"
         method="GET"
     >
-    <div class="md:flex md:items-center mb-6">
+    <div class="md:flex md:items-center">
         <label class="block font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
             Motivo Consulta
         </label>
@@ -35,6 +35,10 @@
         </label>
         <input name="tipo2" value="{{ $tipo2 }}" list="tipoo" class="mr-5 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="username" type="text">
         <datalist id="tipoo">
+            <option value="{{ __('General') }}">
+            <option value="{{ __('Reconsulta') }}">
+            <option value="{{ __('Domicilio') }}">
+            <option value="{{ __('Emergencia') }}">
             @foreach($tipos as $tipoconsulta)
                 <option value="{{ $tipoconsulta->nombre_especialidad }}">
             @endforeach
@@ -63,82 +67,59 @@
         {{ __("Generar Reporte") }}
     </a>
 </div>
-<table class="border-collapse border text-center border-gray-500 mt-4" style="width:100%">
-    <thead>
-        <tr>
-            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("MOTIVO DE LA CONSULTA") }}</th>
-            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("FECHA") }}</th>
-            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("MEDICO") }}</th>
-            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("PACIENTE") }}</th>
-            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("TIPO DE CONSULTA") }}</th>
-            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("ATENDIDO") }}</th>
-            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("OPCIONES") }}</th>
-        </tr>
-    </thead>
-    <tbody>
-        @forelse($consultas as $consulta)
+<div class="container mx-auto">
+    <table class="border-collapse border text-center border-gray-500 mt-4 mx-auto" style="width:100%">
+        <thead>
             <tr>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->motivo_consulta }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->fecha }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->medico->ci }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->paciente->ci }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
-                    @isset($consulta->tipos->especialidades->nombre_especialidad)
-                        {{ $consulta->tipos->especialidades->nombre_especialidad }}
-                    @else
-                        @if($consulta->tipo_id == 1)
-                            {{ __("General") }}
-                        @elseif($consulta->tipo_id == 2)
-                            {{ __("Reconsulta") }}
-                        @elseif($consulta->tipo_id == 3)
-                            {{ __("Domicilio") }}
-                        @elseif($consulta->tipo_id == 4)
-                            {{ __("Emergencia") }}
-                        @endif
-                    @endisset
-                </td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->atentido }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
-                    <div class="inline-flex">
-                        <a href="{{ route('consulta.edit', ['consultum' => $consulta]) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-                            {{ __("Modificar") }}
-                        </a>
-                        <a
-                            href="#"
-                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
-                            onclick="
-                                event.preventDefault();
-                                document.getElementById('delete-consulta-{{ $consulta->id }}-form').submit();
-                            "
-                        >
-                            {{ __("Eliminar") }}
-                        </a>
-                        <form
-                            id="delete-consulta-{{ $consulta->id }}-form"
-                            method="POST"
-                            action="{{ route('consulta.destroy', ['consultum' => $consulta]) }}"
-                            class="hidden"
-                        >
-                            @method("DELETE")
-                            @csrf
-                        </form>
-                    </div>
-                </td>
+                <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("MOTIVO DE LA CONSULTA") }}</th>
+                <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("FECHA") }}</th>
+                <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("MEDICO") }}</th>
+                <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("PACIENTE") }}</th>
+                <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("TIPO DE CONSULTA") }}</th>
+                <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("ATENDIDO") }}</th>
             </tr>
-        @empty
-            <tr>
-                <td class="border-solid border-2 border-gray-500 px-4 py-2" colspan="5">
-                    {{ __("LISTA DE CONSULTAS VACIA") }}
-                </td>
-            </tr>
-        @endforelse
-    </tbody>
-</table>
-@if($consulta->count() != null)
-    @if($consulta->count())
-        <div class="mt-4">
-            {{ $consultas->links() }}
-        </div>
-    @endif
-@endif
+        </thead>
+        <tbody>
+            @forelse($consultas as $consulta)
+                <tr>
+                    <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->motivo_consulta }}</td>
+                    <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->fecha }}</td>
+                    <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->medico->ci }}</td>
+                    <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->paciente->ci }}</td>
+                    <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
+                        @isset($consulta->tipos->especialidades->nombre_especialidad)
+                            {{ $consulta->tipos->especialidades->nombre_especialidad }}
+                        @else
+                            @if($consulta->tipo_id == 1)
+                                {{ __("General") }}
+                            @elseif($consulta->tipo_id == 2)
+                                {{ __("Reconsulta") }}
+                            @elseif($consulta->tipo_id == 3)
+                                {{ __("Domicilio") }}
+                            @elseif($consulta->tipo_id == 4)
+                                {{ __("Emergencia") }}
+                            @endif
+                        @endisset
+                    </td>
+                    <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->atentido }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td class="border-solid border-2 border-gray-500 px-4 py-2" colspan="7">
+                        {{ __("LISTA DE CONSULTAS VACIA") }}
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+    @isset($consulta)
+        @if($consulta->count() != null)
+            @if($consulta->count())
+                <div class="mt-4">
+                    {{ $consultas->links() }}
+                </div>
+            @endif
+        @endif
+    @endisset
+</div>
 @endsection

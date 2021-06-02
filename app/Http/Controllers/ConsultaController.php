@@ -28,23 +28,63 @@ class ConsultaController extends Controller
         $tipo2 = trim($request->get('tipo2'));
         $resp = trim($request->get('resp'));
 
+        if ($tipo2 == ""){
+            $consultas = Consulta::join('medicos', 'medico_id', '=', 'medicos.id')
+                                        ->join('pacientes', 'paciente_id', '=', 'pacientes.id')
+                                        ->join('tipos', 'tipo_id', '=', 'tipos.id')
+                                        ->where('consultas.secretaria_id',$usuario[0]['secretaria_id'])
+                                        ->where('motivo_consulta','LIKE','%'.$mot.'%')
+                                        ->where('medicos.ci','LIKE','%'.$cimedico.'%')
+                                        ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
+                                        // ->orwhere(function ($query) {
+                                        //     $query->select('nombre_especialidad')
+                                        //             ->from('especialidades')
+                                        //             ->whereColumn('tipos.especialidad_id', 'especialidades.id');
+                                        // },'LIKE','%'.$tipo2.'%')
+                                        ->where('atentido','LIKE','%'.$resp.'%')
+                                        ->orderByDesc('fecha')
+                                        ->paginate(8);
+        }
+        else if ($tipo2 == 'General' || $tipo2 == 'Reconsulta' || $tipo2 == 'Domicilio' || $tipo2 == 'Emergencia') {
+            if($tipo2 == 'General')
+                $aux_tipo = 1;
+            elseif ($tipo2 == 'Reconsulta')
+                $aux_tipo = 2;
+            elseif ($tipo2 == 'Domicilio')
+                $aux_tipo = 3;
+            else
+                $aux_tipo = 4;
 
-        $consultas = Consulta::join('medicos', 'medico_id', '=', 'medicos.id')
+            $consultas = Consulta::join('medicos', 'medico_id', '=', 'medicos.id')
                                     ->join('pacientes', 'paciente_id', '=', 'pacientes.id')
                                     ->join('tipos', 'tipo_id', '=', 'tipos.id')
-                                    // ->select('consultas.*','medicos.ci','pacientes.ci','especialidad.*',)
                                     ->where('consultas.secretaria_id',$usuario[0]['secretaria_id'])
                                     ->where('motivo_consulta','LIKE','%'.$mot.'%')
                                     ->where('medicos.ci','LIKE','%'.$cimedico.'%')
                                     ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
-                                    // ->orwhere(function ($query) {
-                                    //     $query->select('nombre_especialidad')
-                                    //             ->from('especialidades')
-                                    //             ->whereColumn('tipos.especialidad_id', 'especialidades.id');
-                                    // },'LIKE','%'.$tipo2.'%')
+                                    ->where('consultas.tipo_id','LIKE','%'.$aux_tipo.'%')
                                     ->where('atentido','LIKE','%'.$resp.'%')
                                     ->orderByDesc('fecha')
                                     ->paginate(8);
+        }
+        else {
+            // recuperamos el id de tipo dependiendo de la especialidad escogida
+            $aux_tipo = Tipo::join('especialidades', 'especialidad_id', '=', 'especialidades.id')
+                                ->select('tipos.id')
+                                ->where("nombre_especialidad",$tipo2)->get();
+
+            $consultas = Consulta::join('medicos', 'medico_id', '=', 'medicos.id')
+                                    ->join('pacientes', 'paciente_id', '=', 'pacientes.id')
+                                    ->join('tipos', 'tipo_id', '=', 'tipos.id')
+                                    ->where('consultas.secretaria_id',$usuario[0]['secretaria_id'])
+                                    ->where('motivo_consulta','LIKE','%'.$mot.'%')
+                                    ->where('medicos.ci','LIKE','%'.$cimedico.'%')
+                                    ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
+                                    ->where('consultas.tipo_id','LIKE','%'.$aux_tipo[0]['id'].'%')
+                                    ->where('atentido','LIKE','%'.$resp.'%')
+                                    ->orderByDesc('fecha')
+                                    ->paginate(8);
+        }
         return view('consultas.index', compact("consultas","mot","cimedico","cipaciente","tipo2","resp","tipos"));
     }
 

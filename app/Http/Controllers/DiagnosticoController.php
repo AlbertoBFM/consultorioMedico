@@ -33,7 +33,7 @@ class DiagnosticoController extends Controller
                             ->where('consultas.medico_id',$usuario[0]['medico_id'])
                             ->where('consultas.atentido',"=","NO")
                             ->get();
-        return view('diagnostico.index',compact('paciente'));
+        return view('diagnostico.form',compact('paciente'));
     }
 
     /**
@@ -67,7 +67,7 @@ class DiagnosticoController extends Controller
         $consultas=Consulta::find($paciente1[0]['id']);
         $consultas->atentido="SI";
         $consultas->save();
-        return redirect(route('diagnostico.create'))->with("success",__("SE REGISTRO LA CONSULTA CORRECTAMENTE"));
+        return redirect(route('diagnostico.index'))->with("success",__("SE REGISTRO LA CONSULTA CORRECTAMENTE"));
     }
 
     /**
