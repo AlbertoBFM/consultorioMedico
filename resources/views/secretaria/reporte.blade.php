@@ -56,7 +56,7 @@
                 <td>{{ $secretaria->f_nac }}</td>
                 <td>{{ $secretaria->cel }}</td>
                 <td>{{ $secretaria->salarios->Salario }}</td>
-                <td>{{ $secretaria->turnos->turnos }}</td>
+                <td>{{ $secretaria->turnos }}</td>
             </tr>
         @empty
             <tr>

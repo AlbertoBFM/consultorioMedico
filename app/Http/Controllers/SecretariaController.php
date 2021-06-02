@@ -31,7 +31,6 @@ class SecretariaController extends Controller
         $ci = trim($request->get('ci'));
         $nombre = trim($request->get('nombre'));
         $apellido = trim($request->get('apellido'));
-        $especialidad = trim($request->get('especialidad'));
         $turno3 = trim($request->get('turno3'));
 
         $secretarias = Secretaria::join('turnos', 'turnos_id', '=', 'turnos.id')

@@ -41,6 +41,7 @@
             <th>{{ __("MEDICO") }}</th>
             <th>{{ __("PACIENTE") }}</th>
             <th>{{ __("TIPO DE CONSULTA") }}</th>
+            <th>{{ __("COSTO") }}</th>
             <th>{{ __("ATENDIDO") }}</th>
         </tr>
     </thead>
@@ -65,6 +66,7 @@
                         @endif
                     @endisset
                 </td>
+                <td>{{ $consulta->tipos->precio_consulta }}</td>
                 <td>{{ $consulta->atentido }}</td>
             </tr>
         @empty
