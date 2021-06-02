@@ -74,12 +74,6 @@
                         </div>
                         <div class="mr-10">
                             <label class="inline-flex items-center">
-                                <input id="reconsulta" type="radio" class="form-radio" name="tipo" value="2">
-                                <span class="ml-2">Reconsulta</span>
-                            </label>
-                        </div>
-                        <div class="mr-10">
-                            <label class="inline-flex items-center">
                                 <input id="domicilio" type="radio" class="form-radio" name="tipo" value="3">
                                 <span class="ml-2">Domicilio</span>
                             </label>
@@ -94,6 +88,12 @@
                             <label class="inline-flex items-center">
                                 <input id="especialidad" type="radio" class="form-radio" name="tipo" value="5">
                                 <span class="ml-2">Especialidad</span>
+                            </label>
+                        </div>
+                        <div class="mr-10">
+                            <label class="inline-flex items-center">
+                                <input id="reconsulta" type="radio" class="form-radio" name="tipo" value="2">
+                                <span class="ml-2">Reconsulta</span>
                             </label>
                         </div>
                     </div>

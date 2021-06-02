@@ -57,10 +57,22 @@
     </form>
 </div>
 <!-- REPORTE -->
+<!-- Reporte -->
 <div class="flex justify-center flex-wrap">
-    <a href="{{ route('descargarPDFPacientes') }}" target="_blank" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 mt-4 border border-blue-500 hover:border-transparent rounded">
-        {{ __("Generar Reporte") }}
-    </a>
+    <form
+        action="{{ route('descargarPDFPacientes') }}"
+        method="GET"
+    >
+        <input type="hidden" name="ci2" value="{{ $ci }}">
+        <input type="hidden" name="nombre2" value="{{ $nombre }}">
+        <input type="hidden" name="apellido2" value="{{ $apellido }}">
+        <input type="hidden" name="sexo22" value="{{ $sexo2 }}">
+        <input
+            type="submit"
+            class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded"
+            value="Generar PDF"
+        >
+    </form>
 </div>
 <br>
 <table class="border-separate border-2 text-center border-gray-500 mt-4" style="width:100%">

@@ -44,7 +44,7 @@
             @endforeach
         </datalist>
 
-        <label for="turno" class="block font-bold md:text-right mb-1 md:mb-0 pr-4">
+        <label for="resp" class="block font-bold md:text-right mb-1 md:mb-0 pr-4">
             {{ __("Atendido") }}
         </label>
         <input name="resp" value="{{ $resp }}" list="respp" class="mr-5 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="username" type="text">
@@ -62,10 +62,24 @@
     </div>
     </form>
 </div>
+<!-- Reporte -->
 <div class="flex justify-center flex-wrap">
-    <a href="{{ route('descargarPDFConsultas') }}" target="_blank" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 mt-4 border border-blue-500 hover:border-transparent rounded">
-        {{ __("Generar Reporte") }}
-    </a>
+    <form
+        action="{{ route('descargarPDFConsultas') }}"
+        method="GET"
+    >
+        <input type="hidden" name="mot2" value="{{ $mot }}">
+        <input type="hidden" name="cimedico2" value="{{ $cimedico }}">
+        <input type="hidden" name="cipaciente2" value="{{ $cipaciente }}">
+        <input type="hidden" name="tipo22" value="{{ $tipo2 }}">
+        <input type="hidden" name="resp2" value="{{ $resp }}">
+
+        <input
+            type="submit"
+            class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded"
+            value="Generar PDF"
+        >
+    </form>
 </div>
 <div class="container mx-auto">
     <table class="border-collapse border text-center border-gray-500 mt-4 mx-auto" style="width:100%">
@@ -76,6 +90,7 @@
                 <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("MEDICO") }}</th>
                 <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("PACIENTE") }}</th>
                 <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("TIPO DE CONSULTA") }}</th>
+                <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("COSTO") }}</th>
                 <th class="bg-blue-900 text-gray-100 px-4 py-2">{{ __("ATENDIDO") }}</th>
             </tr>
         </thead>
@@ -101,6 +116,7 @@
                             @endif
                         @endisset
                     </td>
+                    <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->tipos->precio_consulta }}</td>
                     <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $consulta->atentido }}</td>
                 </tr>
             @empty
