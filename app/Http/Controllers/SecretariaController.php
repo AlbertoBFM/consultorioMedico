@@ -15,18 +15,16 @@ use Illuminate\Support\Facades\DB;
 
 class SecretariaController extends Controller
 {
+    public function __construct(){
+        $this->middleware("jefeMedico");
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    /*public function __contruct(){
-        $this->middleware("auth");
-    }*/
     public function index(Request $request)
     {
-        // $secretarias = Secretaria::all();
-
         //Esto es para implementar la busqueda
         $ci = trim($request->get('ci'));
         $nombre = trim($request->get('nombre'));

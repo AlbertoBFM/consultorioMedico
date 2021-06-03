@@ -58,7 +58,10 @@ class Kernel extends HttpKernel
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'jefeMedico' => \App\Http\Middleware\JefeMedicoMiddleware::class,//JEFE MÉDICO
+        'medico' => \App\Http\Middleware\MedicoMiddleware::class,//MÉDICO
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'secretaria' => \App\Http\Middleware\SecretariaMiddleware::class,//SECRETARIA
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,

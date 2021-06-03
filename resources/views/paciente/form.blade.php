@@ -1,4 +1,4 @@
-@extends('layouts.pacientes')
+@extends('layouts.app')
 @section('content')
 <div class="w-full max-w-xs mt-20 m-auto">
         <form
