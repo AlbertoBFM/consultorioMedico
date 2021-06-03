@@ -31,8 +31,10 @@ class MedicoFactory extends Factory
             "f_nac" => $this->faker->date(),
             "cel" => $this->faker->phoneNumber,
             "especialidad_id" => Especialidad::all()->random()->id,
-            "salario_id" => Salario::all()->random()->id,
-            "turnos_id" => Turno::all()->random()->id
+            "salario_id" => 1,
+            "turnos_id" => 6
+            // "salario_id" => Salario::all()->random()->id,
+            // "turnos_id" => Turno::all()->random()->id
         ];
     }
 }

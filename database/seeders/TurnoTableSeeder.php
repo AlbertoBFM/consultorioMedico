@@ -33,6 +33,10 @@ class TurnoTableSeeder extends Seeder
             [
                 "turnos" => "16:30 - 20:30",
                 "created_at" => now()
+            ],
+            [
+                "turnos" => "INDEFINIDO",
+                "created_at" => now()
             ]
         ]);
     }

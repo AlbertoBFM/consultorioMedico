@@ -7,6 +7,7 @@
             {{ __("Registrar Médico") }}
         </a>
     </div>
+</div>
     <!-- BUSQUEDA -->
 <div class="flex justify-center flex-wrap bg-gray-200 p-4 mt-5">
     <form
@@ -83,6 +84,7 @@
 </div>
 <br>
 <!-- LISTA -->
+<div class="container mx-auto">
 <table class="border-collapse border text-center border-gray-500" style="width:100%">
     <thead>
         <tr>
@@ -106,14 +108,16 @@
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $medico->f_nac }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $medico->cel }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
-                @isset($medico->especialidades->nombre_especialidad)
-                    {{ $medico->especialidades->nombre_especialidad }}
-                @else
-                    {{ __("Sin Especialidad") }}
-                @endisset
+                    @isset($medico->especialidades->nombre_especialidad)
+                        {{ $medico->especialidades->nombre_especialidad }}
+                    @else
+                        {{ __("Sin Especialidad") }}
+                    @endisset
                 </td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $medico->salarios->Salario }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $medico->turnos }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
+                    {{ $medico->turnos }}
+                </td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
                     <div class="inline-flex">
                         <a href="{{ route('medico.edit', ['medico' => $medico]) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
@@ -141,11 +145,6 @@
                     </div>
                 </td>
             </tr>
-            @if($medico->count())
-                <div class="mt-4">
-                    {{ $medicos->links() }}
-                </div>
-            @endif
         @empty
             <tr>
                 <td class="border-solid border-2 border-gray-500 px-4 py-2" colspan="5">
@@ -155,5 +154,15 @@
         @endforelse
     </tbody>
 </table>
-
+@isset($medico)
+    @if($medico->count() != null)
+        @if($medico->count())
+            <div class="mt-4">
+                {{ $medicos->links() }}
+            </div>
+        @endif
+    @endif
+@endisset
+</div>
+<br>
 @endsection
