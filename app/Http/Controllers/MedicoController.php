@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\DB;
 
 class MedicoController extends Controller
 {
-    public function __construct(){
-        $this->middleware("jefeMedico");
-    }
+    // public function __construct(){
+    //     $this->middleware("jefeMedico");
+    // }
 
     /**
      * Display a listing of the resource.
@@ -37,14 +37,17 @@ class MedicoController extends Controller
         $especialidad2 = trim($request->get('especialidad'));
         $turno = trim($request->get('turno'));
         $turno2 = trim($request->get('turno'));
-        if($especialidad == "")
+
+        if ($especialidad == "") {
             $medicos = Medico::join('turnos', 'turnos_id', '=', 'turnos.id')
                             ->select('medicos.*','turnos.turnos')
                             ->where('ci','LIKE','%'.$ci.'%')
                             ->where('nombres','LIKE','%'.$nombre.'%')
                             ->where('apellidos','LIKE','%'.$apellido.'%')
                             ->where('turnos','LIKE','%'.$turno.'%')
+                            ->orderByDesc('medicos.id')
                             ->paginate(8);
+        }
         elseif ($especialidad == "Sin Especialidad") {
             $medicos = Medico::join('turnos', 'turnos_id', '=', 'turnos.id')
                             ->select('medicos.*','turnos.turnos')
@@ -118,7 +121,7 @@ class MedicoController extends Controller
                 'f_nac' => $request->f_nac,
                 'cel' => $request->cel,
                 'salario_id' => $salarioRecup[0]["id"],
-                'turnos_id' => $request->turno,
+                'turnos_id' => 6,
             ]);
         }
         else{
@@ -136,7 +139,7 @@ class MedicoController extends Controller
                 'cel' => $request->cel,
                 'especialidad_id' => $request->especialidad,
                 'salario_id' => $salarioRecup[0]["id"],
-                'turnos_id' => $request->turno,
+                'turnos_id' => 6,
             ]);
         }
         //buscamos el medico
@@ -177,7 +180,12 @@ class MedicoController extends Controller
         $textButton = __("Actualizar");
         $route = route("medico.update", ["medico" => $medico]);
         $turnos = Turno::all();
-        return view("medicos.edit", compact("update","title", "textButton", "route", "medico","turnos"));
+        // echo $medico["especialidad_id"]." hola";
+        $turnosOcupados = Turno::join('medicos', 'turnos.id', '=', 'turnos_id')
+                        ->select('turnos.id')
+                        ->where('turnos.id', '!=', '6')
+                        ->get();
+        return view("medicos.edit", compact("medico","update","title", "textButton", "route", "medico","turnos","turnosOcupados"));
 
     }
 
@@ -222,6 +230,8 @@ class MedicoController extends Controller
     {
         try {
             $medico->delete();
+            $salario = Salario::where('id',$medico->salario_id)->get();
+            $salario[0]->delete();
         } catch (\Throwable $th) {
 
         }

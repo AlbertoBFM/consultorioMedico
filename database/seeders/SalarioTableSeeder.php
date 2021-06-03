@@ -15,13 +15,8 @@ class SalarioTableSeeder extends Seeder
     {
         return \DB::table('salarios')->insert([
             [
-                "Salario" => 5000,
+                "Salario" => 0.0,
                 "Bono" => 500,
-                "created_at" => now()
-            ],
-            [
-                "Salario" => 4000,
-                "Bono" => 0,
                 "created_at" => now()
             ],
             [
