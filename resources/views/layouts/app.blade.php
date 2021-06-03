@@ -23,20 +23,53 @@
                     <a href="{{ url('/') }}" class="text-lg font-semibold text-gray-100 no-underline">
                         {{ config('app.name', 'Laravel') }}
                     </a>
+                    @if(isset(Auth::user()->jefemedico_id))
+                        <a
+                            href="{{ route('medico.index') }}"
+                            class="ml-10 no-underline hover:underline text-gray-300 text-sm sm:text-base"
+                        >
+                            {{ __("Medicos") }}
+                        </a>
+                        <a
+                            href="{{ route('secretaria.index') }}"
+                            class="ml-10 no-underline hover:underline text-gray-300 text-sm sm:text-base"
+                        >
+                            {{ __("Secretarias") }}
+                        </a>
+                    @elseif(isset(Auth::user()->medico_id))
+                        <a
+                            href="{{ route('diagnostico.index') }}"
+                            class="ml-10 no-underline hover:underline text-gray-300 text-sm sm:text-base"
+                        >
+                            {{ __("Consultas") }}
+                        </a>
+                    @elseif(isset(Auth::user()->secretaria_id))
+                        <a
+                            href="{{ route('paciente.index') }}"
+                            class="ml-10 no-underline hover:underline text-gray-300 text-sm sm:text-base"
+                        >
+                            {{ __("Pacientes") }}
+                        </a>
+                        <a
+                            href="{{ route('consulta.index') }}"
+                            class="ml-10 no-underline hover:underline text-gray-300 text-sm sm:text-base"
+                        >
+                            {{ __("Consultas") }}
+                        </a>
+                    @endif
                 </div>
                 <nav class="space-x-4 text-gray-300 text-sm sm:text-base">
                     @guest
-                        <a class="no-underline hover:underline" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        @if (Route::has('register'))
+                        <a class="no-underline hover:underline" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
+                        <!-- @if (Route::has('register'))
                             <a class="no-underline hover:underline" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        @endif
+                        @endif -->
                     @else
                         <span>{{ Auth::user()->email }}</span>
-
                         <a href="{{ route('logout') }}"
                            class="no-underline hover:underline"
                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                document.getElementById('logout-form').submit();">{{ __('Cerrar Sesión') }}</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                             {{ csrf_field() }}
                         </form>

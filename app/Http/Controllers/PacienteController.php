@@ -14,8 +14,8 @@ class PacienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __contruct(){
-        $this->middleware("auth");
+    public function __construct(){
+        $this->middleware("secretaria");
     }
     public function index(Request $request)
     {

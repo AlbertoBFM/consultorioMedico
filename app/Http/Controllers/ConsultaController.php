@@ -17,6 +17,10 @@ class ConsultaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+        $this->middleware("secretaria");
+    }
+
     public function index(Request $request)
     {
         $usuario = User::where("id",auth()->id())->get();
