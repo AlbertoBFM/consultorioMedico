@@ -115,7 +115,7 @@ class PDFController extends Controller
                                         ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
                                         ->where('atentido','LIKE','%'.$resp.'%')
                                         ->orderByDesc('fecha')
-                                        ->paginate(8);
+                                        ->get();
         }
         else if ($tipo2 == 'General' || $tipo2 == 'Reconsulta' || $tipo2 == 'Domicilio' || $tipo2 == 'Emergencia') {
             if($tipo2 == 'General')
@@ -137,7 +137,7 @@ class PDFController extends Controller
                                     ->where('consultas.tipo_id','LIKE','%'.$aux_tipo.'%')
                                     ->where('atentido','LIKE','%'.$resp.'%')
                                     ->orderByDesc('fecha')
-                                    ->paginate(8);
+                                    ->get();
         }
         else {
             // recuperamos el id de tipo dependiendo de la especialidad escogida
@@ -155,7 +155,7 @@ class PDFController extends Controller
                                     ->where('consultas.tipo_id','LIKE','%'.$aux_tipo[0]['id'].'%')
                                     ->where('atentido','LIKE','%'.$resp.'%')
                                     ->orderByDesc('fecha')
-                                    ->paginate(8);
+                                    ->get();
         }
 
         $pdf = PDF::loadView('consultas.reporte', compact("consultas"))->setPaper('legal', 'landscape');
