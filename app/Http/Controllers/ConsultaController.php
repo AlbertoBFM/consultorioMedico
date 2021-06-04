@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+date_default_timezone_set("America/La_Paz");
+
 use App\Models\Consulta;
 use App\Models\Especialidad;
 use App\Models\Paciente;
@@ -46,8 +48,8 @@ class ConsultaController extends Controller
                                         //             ->whereColumn('tipos.especialidad_id', 'especialidades.id');
                                         // },'LIKE','%'.$tipo2.'%')
                                         ->where('atentido','LIKE','%'.$resp.'%')
-                                        ->orderByDesc('fecha')
-                                        ->paginate(8);
+                                        ->orderByDesc('consultas.id')
+                                        ->paginate(20);
         }
         else if ($tipo2 == 'General' || $tipo2 == 'Reconsulta' || $tipo2 == 'Domicilio' || $tipo2 == 'Emergencia') {
             if($tipo2 == 'General')
@@ -68,8 +70,8 @@ class ConsultaController extends Controller
                                     ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
                                     ->where('consultas.tipo_id','LIKE','%'.$aux_tipo.'%')
                                     ->where('atentido','LIKE','%'.$resp.'%')
-                                    ->orderByDesc('fecha')
-                                    ->paginate(8);
+                                    ->orderByDesc('consultas.id')
+                                    ->paginate(20);
         }
         else {
             // recuperamos el id de tipo dependiendo de la especialidad escogida
@@ -86,8 +88,8 @@ class ConsultaController extends Controller
                                     ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
                                     ->where('consultas.tipo_id','LIKE','%'.$aux_tipo[0]['id'].'%')
                                     ->where('atentido','LIKE','%'.$resp.'%')
-                                    ->orderByDesc('fecha')
-                                    ->paginate(8);
+                                    ->orderByDesc('consultas.id')
+                                    ->paginate(20);
         }
         return view('consultas.index', compact("consultas","mot","cimedico","cipaciente","tipo2","resp","tipos"));
     }
@@ -99,21 +101,31 @@ class ConsultaController extends Controller
      */
     public function create()
     {
-        $paciente=Paciente::query()->select(['ci'])->get();
+        $paciente = Paciente::query()->select(['ci'])->get();
         // $tipos=Tipo::query()->select(['id','tipo_consulta','precio_consulta'])->get();
-        $tipos=Tipo::join('especialidades', 'especialidad_id', '=', 'especialidades.id')
+        $tipos = Tipo::join('especialidades', 'especialidad_id', '=', 'especialidades.id')
                     ->select('tipos.*', 'especialidades.*')
                     ->get();
-        if (date('Hi') - 400 >= '0830' && date('Hi') - 400 < '1230') {
-            $medicos=Medico::query()->select(['*'])->where("turnos_id",'3')->get();
+        //SELECCIONAR AL MÉDICO DE TURNO
+        if (date('Hi') >= '0830' && date('Hi') < '1230') {
+            $medicoTurno = Medico::query()->select(['*'])->where("turnos_id",'3')->get();
         }
-        elseif(date('Hi') - 400 >= '1230' && date('Hi') - 400 < '1630'){
-            $medicos=Medico::query()->select(['*'])->where("turnos_id",'4')->get();
+        elseif(date('Hi') >= '1230' && date('Hi') < '1630'){
+            $medicoTurno = Medico::query()->select(['*'])->where("turnos_id",'4')->get();
         }
         else{
-            $medicos=Medico::query()->select(['*'])->where("turnos_id",'5')->get();
+            $medicoTurno = Medico::query()->select(['*'])->where("turnos_id",'5')->get();
         }
-        return view('consultas.form',compact('paciente','tipos','medicos'));
+        //PARA EL CONTROL DEL CALENDARIO
+        $fechaMinima = date('Y-m-d');
+        $dias = 7 - date("N");
+        $fechaMaxima = date("Y-m-d",strtotime($fechaMinima."+ ".$dias." days"));
+        //LISTAS DE MÉDICOS
+        $medicosGenerales = Medico::whereNull('especialidad_id')->get();
+        $medicosEspecialistas = Medico::join('especialidades', 'especialidad_id', '=', 'especialidades.id')
+                                        ->select('medicos.*','especialidades.nombre_especialidad')
+                                        ->get();
+        return view('consultas.form',compact('paciente','tipos','medicoTurno','medicosGenerales','medicosEspecialistas','fechaMinima','fechaMaxima'));
     }
 
     /**
@@ -126,24 +138,51 @@ class ConsultaController extends Controller
     {
         $usuario=User::where("id",auth()->id())->get();
         $paciente=Paciente::query()->select(['id'])->where("ci",$request->pacientess)->get();
-        $recupMedic = $request->medico_esp;
+
         //SI CONSULTA SIN ESPECIALIDAD
-        if ($request->tipo == 1 || $request->tipo == 2 || $request->tipo == 3 || $request->tipo == 4) {
-            if($request->tipo == 2)//SI ES RECONSULTA
+        if ($request->tipo == 1 || $request->tipo == 21 || $request->tipo == 22 || $request->tipo == 3 || $request->tipo == 4) {
+            if($request->tipo == 21){//SI ES RECONSULTA ESPECIALIDAD
                 $medico_id = $request->medico_esp;
-            else
+                $id_tipo = 2;
+                $fechaConsulta = now();
+            }
+            elseif ($request->tipo == 22){//SI ES RECONSULTA GENERAL
                 $medico_id = $request->medico_gen;
+                $id_tipo = 2;
+                $fechaConsulta = $request->f_nac;
+            }
+            elseif ($request->tipo == 3) {//CONSULTA DOMICILIO
+                $medico_id = $request->medico_gen;
+                $id_tipo = 3;
+                $fechaConsulta = $request->f_nac;
+            }
+            elseif ($request->tipo == 1) {//CONSULTA GENERAL
+                $medico_id = $request->medico_turno;
+                $id_tipo = 1;
+                $fechaConsulta = $request->f_nac;
+                $cantidadConsultas = Consulta::where('medico_id','=',$medico_id)
+                                                ->where('fecha', '=', $fechaConsulta)
+                                                ->count();
+                if($cantidadConsultas >= 20)
+                    return redirect(route("consulta.create"))->with("success",__("Limite de consultas alcanzadas"));
+            }
+            else{//CONSULTA  EMERGENCIA
+                $medico_id = $request->medico_turno;
+                $id_tipo = 4;
+                $fechaConsulta = now();
+            }
             Consulta::insert([
                 'motivo_consulta' => $request->motivoconsulta,
-                'fecha' => now(),
+                'fecha' => $fechaConsulta,
                 'paciente_id' => $paciente[0]['id'],
-                'tipo_id' => $request->tipo,
+                'tipo_id' => $id_tipo,
                 'medico_id' => $medico_id,
                 'secretaria_id' => $usuario[0]['secretaria_id'],
                 'atentido' => "NO"
             ]);
         }
         else {
+            $recupMedic = $request->medico_esp;
             //PARA SELECCIONAR EL TIPO RELACIONADO A LA ESPECIALIDAD DEL MÉDICO
             $nombre_esp = Medico::join('especialidades', 'especialidad_id', '=', 'especialidades.id')
                                         ->select('especialidades.nombre_especialidad')
@@ -165,7 +204,7 @@ class ConsultaController extends Controller
             ]);
         }
 
-        return \redirect(route("consulta.create"))->with("success",__("Se registro la consulta Exitosamente'"));
+        return redirect(route("consulta.index"))->with("success",__("Se registro la consulta Exitosamente'"));
     }
 
     /**
