@@ -25,6 +25,8 @@ class CreateDiagnosticosTable extends Migration
             $table->foreign('medico_id')->references('id')->on('medicos')->onDelete('cascade');
             $table->unsignedBigInteger('paciente_id');
             $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('cascade');
+            $table->unsignedBigInteger('consulta_id');
+            $table->foreign('consulta_id')->references('id')->on('consultas')->onDelete('cascade');
             $table->timestamps();
         });
     }

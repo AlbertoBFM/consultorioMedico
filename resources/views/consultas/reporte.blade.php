@@ -30,14 +30,32 @@
             background-color: #233876;
             color:#fff;
         }
+        #tot{
+            background-color: #233876;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            font-family: Helvetica, sans-serif;
+        }
     </style>
 </head>
 <body>
 <h1>LISTA DE CONSULTAS</h1>
+@php
+    $total = 0
+@endphp
+@forelse($consultas as $consulta)
+    @php
+    $total += $consulta->tipos->precio_consulta
+    @endphp
+@empty
+@endforelse
+<h3 id="tot">LA GANANCIA TOTAL ES DE {{ $total }} Bs.</h3>
 <table id="emp">
     <thead>
         <tr>
             <th>{{ __("MOTIVO DE LA CONSULTA") }}</th>
+            <th>{{ __("FECHA") }}</th>
             <th>{{ __("MEDICO") }}</th>
             <th>{{ __("PACIENTE") }}</th>
             <th>{{ __("TIPO DE CONSULTA") }}</th>
@@ -46,9 +64,13 @@
         </tr>
     </thead>
     <tbody>
+        @php
+            $total = 0
+        @endphp
         @forelse($consultas as $consulta)
             <tr>
                 <td>{{ $consulta->motivo_consulta }}</td>
+                <td>{{ $consulta->fecha }}</td>
                 <td>{{ $consulta->medico->ci }}</td>
                 <td>{{ $consulta->paciente->ci }}</td>
                 <td>

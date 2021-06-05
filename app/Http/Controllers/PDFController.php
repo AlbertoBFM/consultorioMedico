@@ -104,6 +104,15 @@ class PDFController extends Controller
         $cipaciente = trim($request->get('cipaciente2'));
         $tipo2 = trim($request->get('tipo22'));
         $resp = trim($request->get('resp2'));
+        $fechaInicio = trim($request->get('f_ini'));
+        $fechaFinal = trim($request->get('f_fin'));
+
+        if ($fechaInicio == "" && $fechaFinal == "") {
+            $fechaInicio = date('Y-m-d');
+            $fechaFinal = date('Y-m-d');
+        }
+        elseif ($fechaInicio > $fechaFinal)//SI LA FECHA INICIAL ES MAYOR A LA FINAL NO REALIZARA LA BUSQUEDA
+            return back()->with("success", __("La fecha de INICIO no puede ser mayor a la FINAL"));
 
         if ($tipo2 == ""){
             $consultas = Consulta::join('medicos', 'medico_id', '=', 'medicos.id')
@@ -114,7 +123,9 @@ class PDFController extends Controller
                                         ->where('medicos.ci','LIKE','%'.$cimedico.'%')
                                         ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
                                         ->where('atentido','LIKE','%'.$resp.'%')
-                                        ->orderByDesc('fecha')
+                                        ->where('fecha', '>=', $fechaInicio)
+                                        ->where('fecha', '<=', $fechaFinal)
+                                        ->orderByDesc('consultas.id')
                                         ->get();
         }
         else if ($tipo2 == 'General' || $tipo2 == 'Reconsulta' || $tipo2 == 'Domicilio' || $tipo2 == 'Emergencia') {
@@ -136,7 +147,9 @@ class PDFController extends Controller
                                     ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
                                     ->where('consultas.tipo_id','LIKE','%'.$aux_tipo.'%')
                                     ->where('atentido','LIKE','%'.$resp.'%')
-                                    ->orderByDesc('fecha')
+                                    ->where('fecha', '>=', $fechaInicio)
+                                    ->where('fecha', '<=', $fechaFinal)
+                                    ->orderByDesc('consultas.id')
                                     ->get();
         }
         else {
@@ -154,11 +167,16 @@ class PDFController extends Controller
                                     ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
                                     ->where('consultas.tipo_id','LIKE','%'.$aux_tipo[0]['id'].'%')
                                     ->where('atentido','LIKE','%'.$resp.'%')
-                                    ->orderByDesc('fecha')
+                                    ->where('fecha', '>=', $fechaInicio)
+                                    ->where('fecha', '<=', $fechaFinal)
+                                    ->orderByDesc('consultas.id')
                                     ->get();
         }
 
         $pdf = PDF::loadView('consultas.reporte', compact("consultas"))->setPaper('legal', 'landscape');
         return $pdf->stream('consultas.pdf');
+    }
+    public function PDFDiagnosticos(Request $request){
+        //
     }
 }

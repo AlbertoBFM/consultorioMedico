@@ -36,18 +36,22 @@ Auth::routes();
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/pdf', 'PDFController@PDF')->name('descargarPDF');
+
 
 Route::get('/pdfmedicos', [\App\Http\Controllers\PDFController::class, 'PDFMedicos'])->name('descargarPDFMedicos');
 Route::get('/pdfsecretarias', [\App\Http\Controllers\PDFController::class, 'PDFSecretarias'])->name('descargarPDFSecretarias');
 Route::get('/pdfpacientes', [\App\Http\Controllers\PDFController::class, 'PDFPacientes'])->name('descargarPDFPacientes');
 Route::get('/pdfconsultas', [\App\Http\Controllers\PDFController::class, 'PDFConsultas'])->name('descargarPDFConsultas');
-
+Route::get('/pdfdiagnosticos', [\App\Http\Controllers\PDFController::class, 'PDFDiagnosticos'])->name('descargarPDFDiagnosticos');
 //otro
 Route::get('/medicos/pdf', [MedicoController::class, 'createPDF']);
 
 Route::resource('consulta',ConsultaController::class);
+
 Route::resource('diagnostico',DiagnosticoController::class);
+Route::get('/consultasturno', [\App\Http\Controllers\DiagnosticoController::class, 'indexTurno'])->name('indexTurno');
+Route::get('/verdiagnostico', [\App\Http\Controllers\DiagnosticoController::class, 'verDiagnostico'])->name('verDiagnostico');
+
 Route::resource('especialidad',EspecialidadController::class);
 Route::resource('jefemedico',JefeMedicoController::class);
 Route::resource('medico',MedicoController::class);
