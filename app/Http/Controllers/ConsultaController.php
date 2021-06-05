@@ -33,6 +33,15 @@ class ConsultaController extends Controller
         $cipaciente = trim($request->get('cipaciente'));
         $tipo2 = trim($request->get('tipo2'));
         $resp = trim($request->get('resp'));
+        $fechaInicio = trim($request->get('f_ini'));
+        $fechaFinal = trim($request->get('f_fin'));
+
+        if ($fechaInicio == "" && $fechaFinal == "") {
+            $fechaInicio = date('Y-m-d');
+            $fechaFinal = date('Y-m-d');
+        }
+        elseif ($fechaInicio > $fechaFinal)//SI LA FECHA INICIAL ES MAYOR A LA FINAL NO REALIZARA LA BUSQUEDA
+            return back()->with("success", __("La fecha de INICIO no puede ser mayor a la FINAL"));
 
         if ($tipo2 == ""){
             $consultas = Consulta::join('medicos', 'medico_id', '=', 'medicos.id')
@@ -48,8 +57,10 @@ class ConsultaController extends Controller
                                         //             ->whereColumn('tipos.especialidad_id', 'especialidades.id');
                                         // },'LIKE','%'.$tipo2.'%')
                                         ->where('atentido','LIKE','%'.$resp.'%')
+                                        ->where('fecha', '>=', $fechaInicio)
+                                        ->where('fecha', '<=', $fechaFinal)
                                         ->orderByDesc('consultas.id')
-                                        ->paginate(20);
+                                        ->simplePaginate(20);
         }
         else if ($tipo2 == 'General' || $tipo2 == 'Reconsulta' || $tipo2 == 'Domicilio' || $tipo2 == 'Emergencia') {
             if($tipo2 == 'General')
@@ -70,8 +81,10 @@ class ConsultaController extends Controller
                                     ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
                                     ->where('consultas.tipo_id','LIKE','%'.$aux_tipo.'%')
                                     ->where('atentido','LIKE','%'.$resp.'%')
+                                    ->where('fecha', '>=', $fechaInicio)
+                                    ->where('fecha', '<=', $fechaFinal)
                                     ->orderByDesc('consultas.id')
-                                    ->paginate(20);
+                                    ->simplePaginate(20);
         }
         else {
             // recuperamos el id de tipo dependiendo de la especialidad escogida
@@ -88,10 +101,12 @@ class ConsultaController extends Controller
                                     ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
                                     ->where('consultas.tipo_id','LIKE','%'.$aux_tipo[0]['id'].'%')
                                     ->where('atentido','LIKE','%'.$resp.'%')
+                                    ->where('fecha', '>=', $fechaInicio)
+                                    ->where('fecha', '<=', $fechaFinal)
                                     ->orderByDesc('consultas.id')
-                                    ->paginate(20);
+                                    ->simplePaginate(20);
         }
-        return view('consultas.index', compact("consultas","mot","cimedico","cipaciente","tipo2","resp","tipos"));
+        return view('consultas.index', compact("consultas","mot","cimedico","cipaciente","tipo2","resp","tipos","fechaInicio","fechaFinal"));
     }
 
     /**

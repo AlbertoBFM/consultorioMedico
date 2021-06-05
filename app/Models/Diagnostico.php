@@ -24,4 +24,7 @@ class Diagnostico extends Model
     public function pacientes(){
         return $this->belongsTo(Paciente::class,'paciente_id');
     }
+    public function consultas(){
+        return $this->belongsTo(Consulta::class,'consulta_id');
+    }
 }

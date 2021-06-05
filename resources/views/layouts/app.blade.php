@@ -38,6 +38,12 @@
                         </a>
                     @elseif(isset(Auth::user()->medico_id))
                         <a
+                            href="{{ route('indexTurno') }}"
+                            class="ml-10 no-underline hover:underline text-gray-300 text-sm sm:text-base"
+                        >
+                            {{ __("Consultas Pendientes") }}
+                        </a>
+                        <a
                             href="{{ route('diagnostico.index') }}"
                             class="ml-10 no-underline hover:underline text-gray-300 text-sm sm:text-base"
                         >
