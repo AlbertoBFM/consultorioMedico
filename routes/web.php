@@ -37,7 +37,7 @@ Auth::routes();
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-
+Route::get('/pdfsueldos', [\App\Http\Controllers\PDFController::class, 'PDFSueldos'])->name('descargarPDFSueldos');//SUELDOS
 Route::get('/pdfmedicos', [\App\Http\Controllers\PDFController::class, 'PDFMedicos'])->name('descargarPDFMedicos');
 Route::get('/pdfsecretarias', [\App\Http\Controllers\PDFController::class, 'PDFSecretarias'])->name('descargarPDFSecretarias');
 Route::get('/pdfpacientes', [\App\Http\Controllers\PDFController::class, 'PDFPacientes'])->name('descargarPDFPacientes');

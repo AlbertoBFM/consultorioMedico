@@ -32,6 +32,7 @@ class SecretariaController extends Controller
         $turno3 = trim($request->get('turno3'));
 
         $secretarias = Secretaria::join('turnos', 'turnos_id', '=', 'turnos.id')
+                                ->select('secretarias.*')
                                 ->where('ci','LIKE','%'.$ci.'%')
                                 ->where('nombres','LIKE','%'.$nombre.'%')
                                 ->where('apellidos','LIKE','%'.$apellido.'%')
@@ -92,7 +93,7 @@ class SecretariaController extends Controller
             'f_nac' => $request->f_nac,
             'cel' => $request->cel,
             'salario_id' => $salarioRecup[0]["id"],
-            'turnos_id' => $request->turno,
+            'turnos_id' => 6,
         ]);
 
         $secretariaRecup = Secretaria::where("ci",$request->ci)->get();
@@ -132,7 +133,12 @@ class SecretariaController extends Controller
         $title = __("Modificar Secretaria");
         $textButton = __("Actualizar");
         $route = route("secretaria.update", $secretarias);
-        return view("secretaria.edit", compact("update","title", "textButton", "route", "secretaria"));
+        $turnos = Turno::all();
+        $turnosOcupados = Turno::join('secretarias', 'turnos.id', '=', 'turnos_id')
+        ->select('turnos.id')
+        ->where('turnos.id', '!=', '6')
+        ->get();
+        return view("secretaria.edit", compact("update","title", "textButton", "route", "secretaria","turnosOcupados","turnos"));
     }
 
     /**
@@ -144,13 +150,13 @@ class SecretariaController extends Controller
      */
     public function update(Request $request, $secretarias)
     {
-        $secretaria=Secretaria::find($secretarias);//where('id',$secretarias)->get();
-        $secretaria->ci=$request->ci;
-        $secretaria->apellidos=$request->apellidos;
-        $secretaria->nombres=$request->nombres;
-        $secretaria->f_nac=$request->f_nac;
-        $secretaria->cel=$request->cel;
-        $secretaria->turnos_id=$request->turno;
+        $secretaria = Secretaria::find($secretarias);//where('id',$secretarias)->get();
+        $secretaria->ci = $request->ci;
+        $secretaria->apellidos = $request->apellidos;
+        $secretaria->nombres = $request->nombres;
+        $secretaria->f_nac = $request->f_nac;
+        $secretaria->cel = $request->cel;
+        $secretaria->turnos_id = $request->turno;
         $secretaria->save();
         return redirect(route("secretaria.index"))->with("success", __("¡Secretaria Actualizada!"));
     }
@@ -161,9 +167,16 @@ class SecretariaController extends Controller
      * @param  \App\Models\Secretaria  $secretaria
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Secretaria $secretaria)
+    public function destroy(Secretaria $secretaria, $secretaria2)
     {
-        echo $secretaria;
+        try {
+            $delete_secretaria = Secretaria::find($secretaria2);
+            $delete_secretaria->delete();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+        return back()->with("success", __("Secretaria Eliminada"));
     }
 
 }

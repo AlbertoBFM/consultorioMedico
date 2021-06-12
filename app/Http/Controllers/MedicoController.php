@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\DB;
 
 class MedicoController extends Controller
 {
-    // public function __construct(){
-    //     $this->middleware("jefeMedico");
-    // }
+    public function __construct(){
+        // $this->middleware("jefeMedico");
+    }
 
     /**
      * Display a listing of the resource.
@@ -207,13 +207,17 @@ class MedicoController extends Controller
             "cel" => "required|unique:medicos,cel,".$medico->id."|min:8|max:30",
         ]);
         //ACTUALIZANDO
+        if($request->turno == null)
+            $turno = 6;
+        else
+            $turno = $request->turno;
         $medico->fill([
             'ci' => $request->ci,
             'apellidos' => $request->apellidos,
             'nombres' => $request->nombres,
             'f_nac' => $request->f_nac,
             'cel' => $request->cel,
-            'turnos_id' => $request->turno,
+            'turnos_id' => $turno,
         ])->save();
         // return back()->with("success", __("Médico Modificado"));
         return redirect(route("medico.index"))->with("success", __("¡Médico Modificado!"));

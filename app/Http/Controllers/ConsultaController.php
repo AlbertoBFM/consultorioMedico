@@ -19,9 +19,9 @@ class ConsultaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function __construct(){
-    //     $this->middleware("secretaria");
-    // }
+    public function __construct(){
+        // $this->middleware("secretaria");
+    }
 
     public function index(Request $request)
     {
@@ -51,16 +51,15 @@ class ConsultaController extends Controller
                                         ->where('motivo_consulta','LIKE','%'.$mot.'%')
                                         ->where('medicos.ci','LIKE','%'.$cimedico.'%')
                                         ->where('pacientes.ci','LIKE','%'.$cipaciente.'%')
-                                        // ->orwhere(function ($query) {
-                                        //     $query->select('nombre_especialidad')
-                                        //             ->from('especialidades')
-                                        //             ->whereColumn('tipos.especialidad_id', 'especialidades.id');
-                                        // },'LIKE','%'.$tipo2.'%')
                                         ->where('atentido','LIKE','%'.$resp.'%')
                                         ->where('fecha', '>=', $fechaInicio)
                                         ->where('fecha', '<=', $fechaFinal)
                                         ->orderByDesc('consultas.id')
                                         ->simplePaginate(20);
+                                        // foreach ($consultas as $consulta) {
+                                        //     echo $consulta;
+                                        //     echo "<br><br>";
+                                        // }
         }
         else if ($tipo2 == 'General' || $tipo2 == 'Reconsulta' || $tipo2 == 'Domicilio' || $tipo2 == 'Emergencia') {
             if($tipo2 == 'General')
@@ -133,8 +132,9 @@ class ConsultaController extends Controller
         }
         //PARA EL CONTROL DEL CALENDARIO
         $fechaMinima = date('Y-m-d');
-        $dias = 7 - date("N");
-        $fechaMaxima = date("Y-m-d",strtotime($fechaMinima."+ ".$dias." days"));
+        $dias = date("j");
+        $fechaMaxima = date("Y-m-d",strtotime($fechaMinima."+ 1 month"));
+        $fechaMaxima = date("Y-m-d",strtotime($fechaMaxima."- ".$dias." days"));
         //LISTAS DE MÉDICOS
         $medicosGenerales = Medico::whereNull('especialidad_id')->get();
         $medicosEspecialistas = Medico::join('especialidades', 'especialidad_id', '=', 'especialidades.id')
@@ -178,7 +178,7 @@ class ConsultaController extends Controller
                 $cantidadConsultas = Consulta::where('medico_id','=',$medico_id)
                                                 ->where('fecha', '=', $fechaConsulta)
                                                 ->count();
-                if($cantidadConsultas >= 20)
+                if($cantidadConsultas >= 8)
                     return redirect(route("consulta.create"))->with("success",__("Limite de consultas alcanzadas"));
             }
             else{//CONSULTA  EMERGENCIA

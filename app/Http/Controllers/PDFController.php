@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+date_default_timezone_set("America/La_Paz");
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PDF;
 
 use App\Models\Medico;
@@ -174,9 +177,34 @@ class PDFController extends Controller
         }
 
         $pdf = PDF::loadView('consultas.reporte', compact("consultas"))->setPaper('legal', 'landscape');
-        return $pdf->stream('consultas.pdf');
+        return $pdf->download('consultas_'.date('H:i:s').'_'.date('d-m-Y').'.pdf');
     }
-    public function PDFDiagnosticos(Request $request){
-        //
+    public function PDFSueldos(Request $request){
+        $medicosGenerales = Medico::whereNull('especialidad_id')->get();
+
+        $mes = date("m");
+        $año = date("Y");
+
+        $mesActual = $año."-".$mes."-01";
+        $mesSiguiente = date("Y-m-d",strtotime($mesActual."+ 1 month"));
+
+        $medicosEspecialistas = Medico::join('especialidades', 'medicos.especialidad_id', '=', 'especialidades.id')
+                                        ->join('consultas', 'medicos.id', '=', 'consultas.medico_id')
+                                        ->join('tipos','consultas.tipo_id','=','tipos.id')
+                                        ->select('medicos.*',DB::raw('SUM(tipos.precio_consulta) as salario'))
+                                        ->groupBy('medicos.id')
+                                        ->where('consultas.fecha', '>=', $mesActual)
+                                        ->where('consultas.fecha', '<', $mesSiguiente)
+                                        ->get();
+
+        $consultas = Consulta::join('tipos','consultas.tipo_id','=','tipos.id')
+                                ->select(DB::raw('SUM(tipos.precio_consulta) as ganancia'))
+                                ->where('fecha', '>=', $mesActual)
+                                ->where('fecha', '<', $mesSiguiente)
+                                ->get();
+        $ganancias = $consultas[0]["ganancia"];
+
+        $pdf = PDF::loadView('medicos.reporteSueldos', compact("medicosGenerales","medicosEspecialistas","ganancias"))->setPaper('legal', 'landscape');
+        return $pdf->download('medicos.pdf');
     }
 }

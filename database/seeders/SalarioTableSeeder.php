@@ -23,6 +23,11 @@ class SalarioTableSeeder extends Seeder
                 "Salario" => 2200,
                 "Bono" => 0,
                 "created_at" => now()
+            ],
+            [
+                "Salario" => 2200,
+                "Bono" => 0,
+                "created_at" => now()
             ]
         ]);
     }

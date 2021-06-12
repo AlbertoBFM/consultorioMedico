@@ -6,6 +6,12 @@
         <a href="{{ route('medico.create') }}" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded">
             {{ __("Registrar Médico") }}
         </a>
+        <a
+            class="ml-5 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded"
+            href="{{ route('descargarPDFSueldos') }}"
+        >
+        REPORTE DE SUELDOS Y GANANCIAS
+        </a>
     </div>
 </div>
     <!-- BUSQUEDA -->

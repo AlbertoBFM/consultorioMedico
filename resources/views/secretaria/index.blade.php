@@ -10,7 +10,6 @@
         </span>
     </div>
 @endif
-
 <div class="flex justify-center flex-wrap bg-gray-200 p-4 mt-5">
     <div class="text-center">
         <h1 class="mb-5 text-4xl">{{ __("Lista de Secretarias") }}</h1>
@@ -100,7 +99,7 @@
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretaria->f_nac }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretaria->cel }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretaria->salarios->Salario }}</td>
-                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretaria->turnos }}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{ $secretaria->turnos->turnos }}</td>
                 <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
                     <div class="inline-flex">
                         <a href="{{ route('secretaria.edit', $secretaria) }}"
@@ -121,7 +120,7 @@
                         <form
                             id="delete-secretaria-{{ $secretaria->id }}-form"
                             method="POST"
-                            action="{{ route('secretaria.destroy', ['secretarium' => $secretaria]) }}"
+                            action="{{ route('secretaria.destroy',  $secretaria) }}"
                             class="hidden"
                         >
                             @method("DELETE")
