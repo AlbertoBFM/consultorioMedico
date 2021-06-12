@@ -30,30 +30,28 @@
             background-color: #233876;
             color:#fff;
         }
-        #tot{
-            background-color: #233876;
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            font-family: Helvetica, sans-serif;
-        }
+
     </style>
 </head>
 <body>
 <h1>LISTA DE CONSULTAS</h1>
 @php
-    $total = 0
+    $total = 0;
+    $num = 1
 @endphp
 @forelse($consultas as $consulta)
     @php
-    $total += $consulta->tipos->precio_consulta
+    $total += $consulta->tipos->precio_consulta;
+    $num += 1
     @endphp
 @empty
 @endforelse
+<h3 id="tot">El total de Consultas son {{ $num - 1 }}</h3>
 <h3 id="tot">LA GANANCIA TOTAL ES DE {{ $total }} Bs.</h3>
 <table id="emp">
     <thead>
         <tr>
+            <th>{{ __("Nº") }}</th>
             <th>{{ __("MOTIVO DE LA CONSULTA") }}</th>
             <th>{{ __("FECHA") }}</th>
             <th>{{ __("MEDICO") }}</th>
@@ -65,10 +63,11 @@
     </thead>
     <tbody>
         @php
-            $total = 0
+            $num = 1
         @endphp
         @forelse($consultas as $consulta)
             <tr>
+                <td>{{ $num }}</td>
                 <td>{{ $consulta->motivo_consulta }}</td>
                 <td>{{ $consulta->fecha }}</td>
                 <td>{{ $consulta->medico->ci }}</td>
@@ -91,6 +90,9 @@
                 <td>{{ $consulta->tipos->precio_consulta }}</td>
                 <td>{{ $consulta->atentido }}</td>
             </tr>
+            @php
+                $num += 1
+            @endphp
         @empty
             <tr>
                 <td class="border-solid border-2 border-gray-500 px-4 py-2" colspan="5">

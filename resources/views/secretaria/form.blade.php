@@ -139,6 +139,7 @@
     </div>
 
     <!-- SELECCIÓN TURNO -->
+    @isset($update)
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3">
                 <label for="Turno" class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
@@ -147,16 +148,29 @@
             </div>
             <div class="md:w-1/3">
                 <select name="turno" id="turno" class="form-select form-select-lg mb-3">
-                    @if($secretaria->turnos_id == 1)
-                        <option value="1" selected> {{ __("08:30 - 14:30") }}</option>
-                        <option value="2"> {{ __("14:30 - 20:30") }}</option>
-                    @else
-                        <option value="1"> {{ __("08:30 - 14:30") }}</option>
-                        <option value="2" selected> {{ __("14:30 - 20:30") }}</option>
-                    @endif
+                    @foreach($turnos as $turno)
+                            @php
+                                $auxiliar = 1
+                            @endphp
+                            @if($secretaria->turnos_id == $turno->id)
+                                <option value="{{ $turno->id }}" selected> {{ $turno->turnos }}</option>
+                            @elseif($turno->id == 1 || $turno->id == 2 || $turno->id == 6)
+                                @foreach($turnosOcupados as $turnoOcupado)
+                                    @if($turnoOcupado->id == $turno->id)
+                                        @php
+                                            $auxiliar = 0
+                                        @endphp
+                                    @endif
+                                @endforeach
+                                @if($auxiliar != 0)
+                                    <option value="{{ $turno->id }}">{{ $turno->turnos }}</option>
+                                @endif
+                            @endif
+                        @endforeach
                 </select>
             </div>
         </div>
+    @endisset
 
     <div class="md:flex md:items-center">
         <div class="md:w-1/3"></div>

@@ -132,10 +132,11 @@
             </tr>
         @endforelse
     </tbody>
-</table>
     @if($pacientes->count())
         <div class="mt-4">
             {{$pacientes->links()}}
         </div>
     @endif
+</table>
+
 @endsection

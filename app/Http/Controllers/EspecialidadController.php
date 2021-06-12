@@ -13,6 +13,11 @@ class EspecialidadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct(){
+        $this->middleware("jefeMedico");
+    }
+
     public function index()
     {
         $especialidades = Especialidad::paginate(8);

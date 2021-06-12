@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+date_default_timezone_set("America/La_Paz");
+
 use App\Models\Paciente;
 use App\Models\Secretaria;
 use App\Models\User;
@@ -14,9 +16,10 @@ class PacienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function __construct(){
-    //     $this->middleware("secretaria");
-    // }
+    public function __construct(){
+        $this->middleware("secretaria");
+    }
+
     public function index(Request $request)
     {
         $ci = trim($request->get('ci'));
@@ -24,10 +27,7 @@ class PacienteController extends Controller
         $apellido = trim($request->get('apellido'));
         $sexo2 = trim($request->get('sexo2'));
 
-        $usuario=User::where("id",auth()->id())->get();
-
-        $pacientes=Paciente::where("secretaria_id",$usuario[0]['secretaria_id'])
-                                ->where('ci','LIKE','%'.$ci.'%')
+        $pacientes=Paciente::where('ci','LIKE','%'.$ci.'%')
                                 ->where('nombres','LIKE','%'.$nombre.'%')
                                 ->where('apellidos','LIKE','%'.$apellido.'%')
                                 ->where('sexo','LIKE','%'.$sexo2.'%')

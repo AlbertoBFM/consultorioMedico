@@ -43,9 +43,9 @@ class User extends Authenticatable
     ];
 
     public function medico(){
-        return $this->belongsTo(Medico::class);
+        return $this->belongsTo(Medico::class,'medico_id');
     }
     public function secretaria(){
-        return $this->belongsTo(Secretaria::class);
+        return $this->belongsTo(Secretaria::class, 'secretaria_id');
     }
 }

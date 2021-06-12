@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 
 class DiagnosticoController extends Controller
 {
-    // public function __construct(){
-    //     $this->middleware("medico");
-    // }
+    public function __construct(){
+        $this->middleware("medico");
+    }
     /**
      * Display a listing of the resource.
      *
