@@ -205,6 +205,6 @@ class PDFController extends Controller
         $ganancias = $consultas[0]["ganancia"];
 
         $pdf = PDF::loadView('medicos.reporteSueldos', compact("medicosGenerales","medicosEspecialistas","ganancias"))->setPaper('legal', 'landscape');
-        return $pdf->download('medicos.pdf');
+        return $pdf->stream('medicos.pdf');
     }
 }
