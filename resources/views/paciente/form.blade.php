@@ -1,8 +1,13 @@
 @extends('layouts.app')
 @section('content')
-<div class="w-full max-w-xs mt-20 m-auto">
+<div class="w-full bg-gray-200 p-4 my-5">
+    <div class="text-center">
+        <h1 class="text-4xl">{{ __("Registrar/Modificar Paciente") }}</h1>
+    </div>
+</div>
+<div class="w-full max-w-xs mt-10 m-auto">
         <form
-            class="bg-white shadow-md rounded px-8 pt-10 pb-8 mb-4"
+            class="bg-white shadow-md rounded px-8 pt-5 pb-8 mb-4"
             method="POST"
             action="{{$ruta}}"
         >
@@ -18,14 +23,15 @@
                 </label>
                 <input name="ci" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" value="{{$ci}}">
                 @error('ci')
-                <div role="alert">
+                <!-- <div role="alert">
                     <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
                         Ojo!!!
                     </div>
                     <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
                         <p>Ingresa datos validos (puede que el paciente ya exista)</p>
                     </div>
-                </div>
+                </div> -->
+                <p class="text-red-500 text-xs italic">{{ __("CI ya registrado, al menos 8 caracteres, solo números") }}</p>
                 @enderror
             </div>
 
@@ -35,14 +41,7 @@
                 </label>
                 <input name="nombres" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" value="{{$nombre}}">
                 @error('nombres')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos (puede que el paciente ya exista)</p>
-                    </div>
-                </div>
+                    <p class="text-red-500 text-xs italic">{{ __("SOLO LETRAS") }}</p>
                 @enderror
             </div>
 
@@ -52,14 +51,7 @@
                 </label>
                 <input name="apellidos" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" value="{{$apellido}}">
                 @error('apellidos')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos (puede que el paciente ya exista)</p>
-                    </div>
-                </div>
+                    <p class="text-red-500 text-xs italic">{{ __("SOLO LETRAS") }}</p>
                 @enderror
             </div>
 
@@ -68,19 +60,12 @@
                     FECHA DE NACIMIENTO
                 </label>
                 @if(isset($actualizar2))
-                    <input type="date" value="{{$actualizar2}}" name="fechanacimiento" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username">
+                    <input type="date" value="{{$actualizar2}}" name="f_nac" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username">
                 @else
-                    <input type="date" name="fechanacimiento" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username">
+                    <input type="date" name="f_nac" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username">
                 @endif
-                @error('fechanacimiento')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos</p>
-                    </div>
-                </div>
+                @error('f_nac')
+                    <p class="text-red-500 text-xs italic">{{ __("Fecha no valida") }}</p>
                 @enderror
             </div>
 
@@ -104,14 +89,7 @@
 
                 </select>
                 @error('sexo')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos (puede que el paciente ya exista)</p>
-                    </div>
-                </div>
+                <p class="text-red-500 text-xs italic">{{ __("Celular ya registrado, al menos 8 caracteres, Solo números") }}</p>
                 @enderror
             </div>
 
@@ -119,16 +97,9 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                     CELULAR
                 </label>
-                <input name="celular" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="number" value="{{$celular}}">
-                @error('celular')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos</p>
-                    </div>
-                </div>
+                <input name="cel" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" value="{{$celular}}">
+                @error('cel')
+                    <p class="text-red-500 text-xs italic">{{ __("Celular ya registrado, al menos 8 caracteres, Solo números") }}</p>
                 @enderror
             </div>
             <div class="flex items-center justify-between">

@@ -151,6 +151,11 @@ class ConsultaController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            "motivoconsulta" => "required|max:255|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "pacientess" => "required|numeric|min:10000000|max:9999999999"
+        ]);
+
         $usuario=User::where("id",auth()->id())->get();
         $paciente=Paciente::query()->select(['id'])->where("ci",$request->pacientess)->get();
 
@@ -186,15 +191,20 @@ class ConsultaController extends Controller
                 $id_tipo = 4;
                 $fechaConsulta = now();
             }
-            Consulta::insert([
-                'motivo_consulta' => $request->motivoconsulta,
-                'fecha' => $fechaConsulta,
-                'paciente_id' => $paciente[0]['id'],
-                'tipo_id' => $id_tipo,
-                'medico_id' => $medico_id,
-                'secretaria_id' => $usuario[0]['secretaria_id'],
-                'atentido' => "NO"
-            ]);
+            try {
+                Consulta::insert([
+                    'motivo_consulta' => $request->motivoconsulta,
+                    'fecha' => $fechaConsulta,
+                    'paciente_id' => $paciente[0]['id'],
+                    'tipo_id' => $id_tipo,
+                    'medico_id' => $medico_id,
+                    'secretaria_id' => $usuario[0]['secretaria_id'],
+                    'atentido' => "NO"
+                ]);
+                return redirect(route("consulta.index"))->with("success",__("Se registro la consulta Exitosamente'"));
+            } catch (\Throwable $th) {
+                return back()->with("danger", __("El CI del paciente no esta registrado"));
+            }
         }
         else {
             $recupMedic = $request->medico_esp;
@@ -208,18 +218,21 @@ class ConsultaController extends Controller
                             ->where('especialidades.nombre_especialidad','=',$nombre_esp[0]["nombre_especialidad"])
                             ->get();
             //INSERSIÓN
-            Consulta::insert([
-                'motivo_consulta' => $request->motivoconsulta,
-                'fecha' => now(),
-                'paciente_id' => $paciente[0]['id'],
-                'tipo_id' => $tipo_id[0]["id"],
-                'medico_id' => $request->medico_esp,
-                'secretaria_id' => $usuario[0]['secretaria_id'],
-                'atentido' => "NO"
-            ]);
+            try {
+                Consulta::insert([
+                    'motivo_consulta' => $request->motivoconsulta,
+                    'fecha' => now(),
+                    'paciente_id' => $paciente[0]['id'],
+                    'tipo_id' => $tipo_id[0]["id"],
+                    'medico_id' => $request->medico_esp,
+                    'secretaria_id' => $usuario[0]['secretaria_id'],
+                    'atentido' => "NO"
+                ]);
+                return redirect(route("consulta.index"))->with("success",__("Se registro la consulta Exitosamente'"));
+            } catch (\Throwable $th) {
+                return back()->with("danger", __("El CI del paciente no esta registrado"));
+            }
         }
-
-        return redirect(route("consulta.index"))->with("success",__("Se registro la consulta Exitosamente'"));
     }
 
     /**

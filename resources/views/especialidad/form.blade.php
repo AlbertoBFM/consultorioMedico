@@ -26,8 +26,9 @@
                     type="number"
                     placeholder="40"
                 >
+                <p class="text-red-500 text-xs italic">{{ __("Solo se llena una única vez, al registrar") }}</p>
                 @error("precio_consulta")
-                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                    <p class="text-red-500 text-xs italic">{{ __("El monto debe ser mayor a 20bs. y menor 200bs.") }}</p>
                 @enderror
             </div>
         </div>
@@ -48,7 +49,7 @@
                 placeholder="Juancito Rodrigo"
             >
             @error("nombre_especialidad")
-                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                <p class="text-red-500 text-xs italic">{{ __("Especialidad ya registrada, solo Letras") }}</p>
             @enderror
         </div>
     </div>

@@ -48,8 +48,8 @@ class EspecialidadController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            "nombre_especialidad" => "required|max:100|unique:especialidades",
-            "precio_consulta" => "required|max:100"
+            "nombre_especialidad" => "required|max:100|unique:especialidades|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "precio_consulta" => "required|numeric|max:200|min:20"
         ]);
 
 
@@ -105,13 +105,13 @@ class EspecialidadController extends Controller
     public function update(Request $request, Especialidad $especialidad)
     {
         $this->validate($request, [
-            "nombre_especialidad" => "required|unique:especialidades,nombre_especialidad,".$especialidad->id."|max:100"
+            "nombre_especialidad" => "required|unique:especialidades,nombre_especialidad,".$especialidad->id."|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "precio_consulta" => "required|numeric|max:200|min:20"
         ]);
         //ACTUALIZANDO
         $especialidad->fill([
             'nombre_especialidad' => $request->nombre_especialidad
         ])->save();
-        // return back()->with("success", __("Médico Modificado"));
         return redirect(route("especialidad.index"))->with("success", __("¡Especialidad Modificada!"));
     }
 
@@ -123,7 +123,11 @@ class EspecialidadController extends Controller
      */
     public function destroy(Especialidad $especialidad)
     {
-        $especialidad->delete();
-        return back()->with("success", __("Especialidad Eliminada"));
+        try {
+            $especialidad->delete();
+            return back()->with("success", __("Especialidad Eliminada"));
+        } catch (\Throwable $th) {
+            return back()->with("danger", __("No puede Eliminar esta Especialidad"));
+        }
     }
 }

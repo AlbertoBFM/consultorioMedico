@@ -1,14 +1,8 @@
 @extends('layouts.app')
 @section('content')
-@if(session('success'))
-    <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
-        <p class="font-bold">Informacion</p>
-        <p class="text-sm">{{session("success")}}</p>
-    </div>
-@endif
-<div class="flex justify-center flex-wrap bg-gray-200 p-4 mt-5">
+<div class="flex justify-center flex-wrap bg-gray-200 p-4">
     <div class="text-center">
-        <h1 class="mb-5 text-4xl">
+        <h1 class="text-4xl mb-10">
             {{__("Listado de Pacientes")}}
         </h1>
         <a href="{{ ROUTE('paciente.create')}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -17,7 +11,7 @@
     </div>
 </div>
 <!-- BUSQUEDA -->
-<div class="flex justify-center flex-wrap bg-gray-200 p-4 mt-5">
+<div class="flex justify-center flex-wrap bg-gray-200 p-4">
     <form
         action="{{ route('paciente.index') }}"
         method="GET"
@@ -55,47 +49,50 @@
 
     </div>
     </form>
+    <!-- Reporte -->
+    <div class="w-full flex justify-center flex-wrap">
+        <form
+            action="{{ route('descargarPDFPacientes') }}"
+            method="GET"
+        >
+            <input type="hidden" name="ci2" value="{{ $ci }}">
+            <input type="hidden" name="nombre2" value="{{ $nombre }}">
+            <input type="hidden" name="apellido2" value="{{ $apellido }}">
+            <input type="hidden" name="sexo22" value="{{ $sexo2 }}">
+            <input
+                type="submit"
+                class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded"
+                value="Generar PDF"
+            >
+        </form>
+    </div>
 </div>
 <!-- REPORTE -->
-<!-- Reporte -->
-<div class="flex justify-center flex-wrap">
-    <form
-        action="{{ route('descargarPDFPacientes') }}"
-        method="GET"
-    >
-        <input type="hidden" name="ci2" value="{{ $ci }}">
-        <input type="hidden" name="nombre2" value="{{ $nombre }}">
-        <input type="hidden" name="apellido2" value="{{ $apellido }}">
-        <input type="hidden" name="sexo22" value="{{ $sexo2 }}">
-        <input
-            type="submit"
-            class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded"
-            value="Generar PDF"
-        >
-    </form>
-</div>
+
 <br>
-<table class="border-separate border-2 text-center border-gray-500 mt-4" style="width:100%">
+<div class="container mx-auto">
+<table class="border-collapse border text-center border-gray-500 mt-4" style="width:100%">
     <thead>
         <tr>
-        <th class="px-4 py-2">{{__("Carnet de Identidad")}}</th>
-            <th class="px-4 py-2">{{__("Nombres")}}</th>
-            <th class="px-4 py-2">{{__("Apellidos")}}</th>
-            <th class="px-4 py-2">{{__("Fecha de Nacimiento")}}</th>
-            <th class="px-4 py-2">{{__("Sexo")}}</th>
-            <th class="px-4 py-2">{{__("Celular")}}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{__("Carnet de Identidad")}}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{__("Nombres")}}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{__("Apellidos")}}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{__("Fecha de Nacimiento")}}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{__("Sexo")}}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{__("Celular")}}</th>
+            <th class="bg-blue-900 text-gray-100 px-4 py-2">{{__("Opciones")}}</th>
         </tr>
     </thead>
     <tbody>
         @forelse($pacientes as $paciente)
             <tr>
-                <td class="border-solid border-2 border-gray px-4 py-2">{{$paciente->ci}}</td>
-                <td class="border-solid border-2 border-gray px-4 py-2">{{$paciente->nombres}}</td>
-                <td class="border-solid border-2 border-gray px-4 py-2">{{$paciente->apellidos}}</td>
-                <td class="border-solid border-2 border-gray px-4 py-2">{{$paciente->f_nac}}</td>
-                <td class="border-solid border-2 border-gray px-4 py-2">{{$paciente->sexo}}</td>
-                <td class="border-solid border-2 border-gray px-4 py-2">{{$paciente->cel}}</td>
-                <td class="border-solid border-2 border-gray px-4 py-2">
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{$paciente->ci}}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{$paciente->nombres}}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{$paciente->apellidos}}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{$paciente->f_nac}}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{$paciente->sexo}}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">{{$paciente->cel}}</td>
+                <td class="border-solid border-2 border-gray-500 text-xs px-4 py-2">
                 <div class="inline-flex">
                     <a
                         class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
@@ -138,5 +135,5 @@
         </div>
     @endif
 </table>
-
+</div>
 @endsection

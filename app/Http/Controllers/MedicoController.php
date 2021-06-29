@@ -97,16 +97,18 @@ class MedicoController extends Controller
      */
     public function store(Request $request)
     {
+        //fecha actual
+        $fecha_Actual = date("Y-m-d");
+        $fecha_mayoria_edad = date("Y-m-d", strtotime($fecha_Actual."- 18 year"));
 
         $this->validate($request, [
             "email" => "required|unique:users",
-            "ci" => "required|unique:medicos|min:8",
-            "apellidos" => "required|max:100",
-            "nombres" => "required|max:100",
-            "f_nac" => "required",
-            "cel" => "required|unique:medicos|min:8|max:30",
+            "ci" => "required|unique:medicos|unique:secretarias|numeric|min:10000000|max:9999999999",
+            "apellidos" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "nombres" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "f_nac" => "required|before:".$fecha_mayoria_edad,
+            "cel" => "required|unique:medicos|unique:secretarias|numeric|min:10000000|max:99999999"
         ]);
-
         if($request->especialidad == "0"){
             Salario::create([
                 'Salario' => 2200,
@@ -199,12 +201,16 @@ class MedicoController extends Controller
     public function update(Request $request, Medico $medico)
     {
 
+        //fecha actual
+        $fecha_Actual = date("Y-m-d");
+        $fecha_mayoria_edad = date("Y-m-d", strtotime($fecha_Actual."- 18 year"));
+
         $this->validate($request, [
-            "ci" => "required|unique:medicos,ci,".$medico->id."|min:8",
-            "apellidos" => "required|max:100",
-            "nombres" => "required|max:100",
-            "f_nac" => "required",
-            "cel" => "required|unique:medicos,cel,".$medico->id."|min:8|max:30",
+            "ci" => "required|unique:medicos,ci,".$medico->id."|unique:secretarias,ci,".$medico->id."|numeric|min:10000000|max:9999999999",
+            "apellidos" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "nombres" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "f_nac" => "required|before:".$fecha_mayoria_edad,
+            "cel" => "required|unique:medicos,cel,".$medico->id."|unique:secretarias,cel,".$medico->id."|numeric|min:10000000|max:99999999"
         ]);
         //ACTUALIZANDO
         if($request->turno == null)
@@ -219,7 +225,6 @@ class MedicoController extends Controller
             'cel' => $request->cel,
             'turnos_id' => $turno,
         ])->save();
-        // return back()->with("success", __("Médico Modificado"));
         return redirect(route("medico.index"))->with("success", __("¡Médico Modificado!"));
 
     }
@@ -236,9 +241,10 @@ class MedicoController extends Controller
             $medico->delete();
             $salario = Salario::where('id',$medico->salario_id)->get();
             $salario[0]->delete();
+            return back()->with("success", __("Medico Eliminado"));
         } catch (\Throwable $th) {
-
+            return back()->with("danger", __("No puede Eliminar este Médico"));
         }
-        return back()->with("success", __("Medico Eliminado"));
+
     }
 }

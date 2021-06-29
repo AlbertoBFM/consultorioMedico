@@ -27,14 +27,7 @@
                 </label>
                 <input name="motivoconsulta" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Ingresa un motivo">
                 @error('motivoconsulta')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos</p>
-                    </div>
-                </div>
+                <p class="text-red-500 font-bold text-xs italic">{{ __("Solo se permiten Letras") }}</p>
                 @enderror
             </div>
 
@@ -48,15 +41,8 @@
                         <option value="{{$pacientes->ci}}">
                     @endforeach
                 </datalist>
-                @error('carnetidentidad')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos (puede que el paciente ya exista)</p>
-                    </div>
-                </div>
+                @error('pacientess')
+                    <p class="text-red-500 font-bold text-xs italic">{{ __("CI no valido") }}</p>
                 @enderror
             </div>
 

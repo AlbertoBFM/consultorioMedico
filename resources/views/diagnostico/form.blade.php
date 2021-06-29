@@ -1,12 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@if(session('success'))
-    <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
-        <p class="font-bold">Informacion</p>
-        <p class="text-sm">{{session("success")}}</p>
-    </div>
-@endif
 
 <div class="w-full max-w mt-15 m-auto">
         <form
@@ -48,20 +42,10 @@
                     id="username"
                     placeholder="Ingresa tu reporte de anamnesis"
                     cols="40"
-                    rows="5"
-                    @isset($diagnostico)
-                        value="{{ $diagnostico[0]->Anamnesis }}"
-                    @endisset
+                    rows="1"
                 >@isset($diagnostico){{ $diagnostico[0]->Anamnesis }} @endisset</textarea>
                 @error('anamnesis')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos</p>
-                    </div>
-                </div>
+                    <p class="text-red-500 text-xs italic">{{ __("No se permiten Caracteres Especiales") }}</p>
                 @enderror
             </div>
             <div class="mb-4">
@@ -74,20 +58,10 @@
                     id="username"
                     placeholder="Ingresa la enfermedad actual del paciente"
                     cols="40"
-                    rows="5"
-                    @isset($diagnostico)
-                        value="{{ $diagnostico[0]->Enfermedad_Actual }}"
-                    @endisset
+                    rows="1"
                 >@isset($diagnostico) {{ $diagnostico[0]->Enfermedad_Actual }} @endisset</textarea>
                 @error('enfermedadactual')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos</p>
-                    </div>
-                </div>
+                    <p class="text-red-500 text-xs italic">{{ __("No se permiten Caracteres Especiales") }}</p>
                 @enderror
             </div>
             <div class="mb-4">
@@ -100,20 +74,10 @@
                     id="username"
                     placeholder="Ingresa el examen fisico general"
                     cols="40"
-                    rows="5"
-                    @isset($diagnostico)
-                        value="{{$diagnostico[0]->Examen_Fisico_General}}"
-                    @endisset
+                    rows="1"
                 >@isset($diagnostico) {{$diagnostico[0]->Examen_Fisico_General}} @endisset</textarea>
                 @error('examenfisicogeneral')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos</p>
-                    </div>
-                </div>
+                    <p class="text-red-500 text-xs italic">{{ __("No se permiten Caracteres Especiales") }}</p>
                 @enderror
             </div>
             <div class="mb-4">
@@ -126,20 +90,10 @@
                     id="username"
                     placeholder="Ingresa el examen complementario"
                     cols="40"
-                    rows="5"
-                    @isset($diagnostico)
-                        value="{{ $diagnostico[0]->Examenes_complementarios }}"
-                    @endisset
+                    rows="1"
                 >@isset($diagnostico) {{ $diagnostico[0]->Examenes_complementarios }} @endisset</textarea>
                 @error('examenescomplementarios')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos</p>
-                    </div>
-                </div>
+                    <p class="text-red-500 text-xs italic">{{ __("No se permiten Caracteres Especiales") }}</p>
                 @enderror
             </div>
             <div class="mb-4">
@@ -152,20 +106,10 @@
                     id="username"
                     placeholder="Ingresa el diagnostico del paciente"
                     cols="40"
-                    rows="5"
-                    @isset($diagnostico)
-                        value="{{ $diagnostico[0]->Diagnostico }}"
-                    @endisset
+                    rows="1"
                 >@isset($diagnostico) {{ $diagnostico[0]->Diagnostico }} @endisset</textarea>
                 @error('diagnostico')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos</p>
-                    </div>
-                </div>
+                    <p class="text-red-500 text-xs italic">{{ __("No se permiten Caracteres Especiales") }}</p>
                 @enderror
             </div>
             <div class="mb-4">
@@ -178,20 +122,10 @@
                     id="username"
                     placeholder="Ingresa el tratamiento del paciente"
                     cols="40"
-                    rows="5"
-                    @isset($diagnostico)
-                        value="{{ $diagnostico[0]->Tratamiento }}"
-                    @endisset
+                    rows="1"
                 >@isset($diagnostico) {{ $diagnostico[0]->Tratamiento }} @endisset</textarea>
                 @error('tratamiento')
-                <div role="alert">
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Ojo!!!
-                    </div>
-                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        <p>Ingresa datos validos</p>
-                    </div>
-                </div>
+                    <p class="text-red-500 text-xs italic">{{ __("No se permiten Caracteres Especiales") }}</p>
                 @enderror
             </div>
 

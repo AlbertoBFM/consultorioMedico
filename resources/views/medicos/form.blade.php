@@ -28,7 +28,7 @@
                     required
                 >
                 @error("email")
-                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                    <p class="text-red-500 text-xs italic">{{ __("EMAIL YA REGISTRADO, O EMAIL NO VALIDO") }}</p>
                 @enderror
             </div>
         </div>
@@ -50,7 +50,7 @@
                 placeholder="15112775"
             >
             @error("ci")
-                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                <p class="text-red-500 text-xs italic">{{ __("CI YA REGISTRADO, AL MENOS 8 CARACTERES, SOLO NÚMEROS") }}</p>
             @enderror
         </div>
     </div>
@@ -71,7 +71,7 @@
                 placeholder="Pinto Ortega"
             >
             @error("apellidos")
-                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                <p class="text-red-500 text-xs italic">{{ __("SOLO LETRAS") }}</p>
             @enderror
         </div>
     </div>
@@ -92,7 +92,7 @@
                 placeholder="Juancito Rodrigo"
             >
             @error("nombres")
-                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                <p class="text-red-500 text-xs italic">{{ __("SOLO LETRAS") }}</p>
             @enderror
         </div>
     </div>
@@ -112,7 +112,7 @@
                 value="{{ old('f_nac') ?? $medico->f_nac }}"
             >
             @error("f_nac")
-                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                <p class="text-red-500 text-xs italic">{{ __("SOLO MAYORIA DE EDAD") }}</p>
             @enderror
         </div>
     </div>
@@ -133,7 +133,7 @@
                 placeholder="76167710"
             >
             @error("cel")
-                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                <p class="text-red-500 text-xs italic">{{ __("Celular ya registrado, al menos 8 caracteres, Solo números") }}</p>
             @enderror
         </div>
     </div>

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class DiagnosticoController extends Controller
 {
     public function __construct(){
-        $this->middleware("medico");
+        // $this->middleware("medico");
     }
     /**
      * Display a listing of the resource.
@@ -113,6 +113,14 @@ class DiagnosticoController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'anamnesis' => "required|max:255|regex:/(^([a-zA-z])[a-zA-z 0-9.,]*([a-zA-Z]*)$)/u",
+            'enfermedadactual' => "required|max:255|regex:/(^([a-zA-z])[a-zA-z 0-9.,]*([a-zA-Z]*)$)/u",
+            'examenfisicogeneral' => "required|max:255|regex:/(^([a-zA-z])[a-zA-z 0-9.,]*([a-zA-Z]*)$)/u",
+            'examenescomplementarios' => "required|max:255|regex:/(^([a-zA-z])[a-zA-z 0-9.,]*([a-zA-Z]*)$)/u",
+            'diagnostico' => "required|max:255|regex:/(^([a-zA-z])[a-zA-z 0-9.,]*([a-zA-Z]*)$)/u",
+            'tratamiento' => "required|max:255|regex:/(^([a-zA-z])[a-zA-z 0-9.,]*([a-zA-Z]*)$)/u",
+        ]);
         $usuario=User::where("id",auth()->id())->get();
 
         Diagnostico::insert([
@@ -164,6 +172,15 @@ class DiagnosticoController extends Controller
      */
     public function update(Request $request, Diagnostico $diagnostico)
     {
+        $this->validate($request, [
+            'anamnesis' => "required|max:255|regex:/(^([a-zA-z])[a-zA-z 0-9.,]*([a-zA-Z]*)$)/u",
+            'enfermedadactual' => "required|max:255|regex:/(^([a-zA-z])[a-zA-z 0-9.,]*([a-zA-Z]*)$)/u",
+            'examenfisicogeneral' => "required|max:255|regex:/(^([a-zA-z])[a-zA-z 0-9.,]*([a-zA-Z]*)$)/u",
+            'examenescomplementarios' => "required|max:255|regex:/(^([a-zA-z])[a-zA-z 0-9.,]*([a-zA-Z]*)$)/u",
+            'diagnostico' => "required|max:255|regex:/(^([a-zA-z])[a-zA-z 0-9.,]*([a-zA-Z]*)$)/u",
+            'tratamiento' => "required|max:255|regex:/(^([a-zA-z])[a-zA-z 0-9.,]*([a-zA-Z]*)$)/u",
+        ]);
+
         $diagnostico->fill([
             'Anamnesis' => $request->anamnesis,
             'Enfermedad_Actual' => $request->enfermedadactual,

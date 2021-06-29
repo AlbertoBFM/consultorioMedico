@@ -1,9 +1,9 @@
 @extends("layouts.app")
 @section('content')
-<div class="w-100 bg-gray-200 p-4 mt-5">
+<div class="w-100 bg-gray-200 p-4">
     <div class="text-center">
-        <h1 class="mb-5 text-4xl">{{ __("Lista de Médicos") }}</h1>
-        <a href="{{ route('especialidad.create') }}" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded">
+        <h1 class="mb-10 text-4xl">{{ __("Lista de Médicos") }}</h1>
+        <a href="{{ route('especialidad.create') }}" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 mb-10 border border-blue-500 hover:border-transparent rounded">
             {{ __("Registrar Especialidad") }}
         </a>
     </div>

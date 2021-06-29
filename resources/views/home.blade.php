@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<main class="sm:container sm:mx-auto sm:mt-10">
-    <div class="w-full sm:px-6">
+<main class="sm:container sm:mx-auto sm:mt-10 sm:mb-10">
+    <div class="w-full sm:px-6 mb-10">
 
         @if (session('status'))
             <div class="text-sm border border-t-8 rounded text-green-700 border-green-600 bg-green-100 px-3 py-4 mb-4" role="alert">
@@ -10,19 +10,23 @@
             </div>
         @endif
 
-        <section class="flex flex-col break-words bg-white sm:border-1 sm:rounded-md sm:shadow-sm sm:shadow-lg">
+        <section class="flex flex-col break-words bg-white sm:border-1 sm:rounded-md sm:shadow-sm sm:shadow-lg mb-10">
 
             <header class="font-semibold bg-gray-200 text-gray-700 py-5 px-6 sm:py-6 sm:px-8 sm:rounded-t-md">
-                Dashboard
+                @if(isset(Auth::user()->jefemedico_id) || isset(Auth::user()->medico_id))
+                    Bienvenido(a) {{Auth::user()->medico->nombres}} {{Auth::user()->medico->apellidos}}
+                @elseif(isset(Auth::user()->secretaria_id))
+                    Bienvenido(a) {{Auth::user()->secretaria->nombres}} {{Auth::user()->secretaria->apellidos}}
+                @endif
             </header>
 
             <div class="w-full p-6">
                 <p class="text-gray-700">
-                    You are logged in!
+                    ¡Tienes Acceso al sistema!
                 </p>
             </div>
             @if(isset(Auth::user()->jefemedico_id))
-                <div class="w-full flex">
+                <div class="w-full flex justify-center my-2">
                     <div class="w-1/3">
                         <canvas id="myChart"></canvas>
                     </div>
@@ -30,6 +34,12 @@
                         <canvas id="myChart2"></canvas>
                     </div>
                 </div>
+                <a
+                    class="w-1/3 text-center mx-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded"
+                    href="{{ route('descargarPDFSueldos') }}"
+                >
+                REPORTE DE SUELDOS Y GANANCIAS
+                </a>
             @endif
 
         </section>

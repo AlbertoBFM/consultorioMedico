@@ -1,25 +1,16 @@
 @extends("layouts.app")
 @section('content')
 
-@if(session('success'))
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-        <strong class="font-bold">Felicidades!</strong>
-        <span class="block sm:inline">{{session("success")}}</span>
-        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-            <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
-        </span>
-    </div>
-@endif
-<div class="flex justify-center flex-wrap bg-gray-200 p-4 mt-5">
+<div class="flex justify-center flex-wrap bg-gray-200 p-4">
     <div class="text-center">
-        <h1 class="mb-5 text-4xl">{{ __("Lista de Secretarias") }}</h1>
-        <a href="{{ route('secretaria.create') }}" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded">
+        <h1 class="mb-10 text-4xl">{{ __("Lista de Secretarias") }}</h1>
+        <a href="{{ route('secretaria.create') }}" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-5 border border-blue-500 hover:border-transparent rounded">
             {{ __("Registrar Secretaria") }}
         </a>
     </div>
 </div>
 <!-- BUSQUEDA -->
-<div class="flex justify-center flex-wrap bg-gray-200 p-4 mt-5">
+<div class="flex justify-center flex-wrap bg-gray-200 p-4">
     <form
         action="{{ route('secretaria.index') }}"
         method="GET"
@@ -51,15 +42,14 @@
 
         <input
             type="submit"
-            class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded"
+            class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4border border-blue-500 hover:border-transparent rounded"
             value="Buscar"
         >
 
     </div>
     </form>
-</div>
-<!-- REPORTE -->
-<div class="flex justify-center flex-wrap">
+    <!-- REPORTE -->
+<div class=" w-full flex justify-center flex-wrap mt-0">
     <form
         action="{{ route('descargarPDFSecretarias') }}"
         method="GET"
@@ -75,8 +65,10 @@
         >
     </form>
 </div>
+</div>
 <br>
 <!-- LISTAS -->
+<div class="container mx-auto">
 <table class="border-collapse border text-center border-gray-500 mt-4" style="width:100%">
     <thead>
         <tr>
@@ -138,4 +130,5 @@
         @endforelse
     </tbody>
 </table>
+</div>
 @endsection

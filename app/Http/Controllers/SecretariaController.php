@@ -66,14 +66,17 @@ class SecretariaController extends Controller
      */
     public function store(Request $request)
     {
+        //fecha actual
+        $fecha_Actual = date("Y-m-d");
+        $fecha_mayoria_edad = date("Y-m-d", strtotime($fecha_Actual."- 18 year"));
 
         $this->validate($request, [
-            "email" => "required|unique:users",
-            "ci" => "required|unique:medicos|unique:secretarias|min:8",
-            "apellidos" => "required|max:100",
-            "nombres" => "required|max:100",
-            "f_nac" => "required",
-            "cel" => "required|unique:medicos|unique:secretarias|min:8|max:30",
+            "email" => "required|unique:users|email",
+            "ci" => "required|unique:secretarias|unique:medicos|numeric|min:10000000|max:9999999999",
+            "apellidos" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "nombres" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "f_nac" => "required|before:".$fecha_mayoria_edad,
+            "cel" => "required|unique:secretarias|unique:medicos|numeric|min:10000000|max:99999999"
         ]);
 
         Salario::create([
@@ -150,6 +153,18 @@ class SecretariaController extends Controller
      */
     public function update(Request $request, $secretarias)
     {
+        //fecha actual
+        $fecha_Actual = date("Y-m-d");
+        $fecha_mayoria_edad = date("Y-m-d", strtotime($fecha_Actual."- 18 year"));
+
+        $this->validate($request, [
+            "ci" => "required|unique:secretarias,ci,".$secretarias."|unique:medicos,ci,".$secretarias."|numeric|min:10000000|max:9999999999",
+            "apellidos" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "nombres" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "f_nac" => "required|before:".$fecha_mayoria_edad,
+            "cel" => "required|unique:secretarias,cel,".$secretarias."|unique:medicos,cel,".$secretarias."|numeric|min:10000000|max:99999999"
+        ]);
+
         $secretaria = Secretaria::find($secretarias);//where('id',$secretarias)->get();
         $secretaria->ci = $request->ci;
         $secretaria->apellidos = $request->apellidos;
@@ -158,6 +173,7 @@ class SecretariaController extends Controller
         $secretaria->cel = $request->cel;
         $secretaria->turnos_id = $request->turno;
         $secretaria->save();
+        echo "asdsad";
         return redirect(route("secretaria.index"))->with("success", __("¡Secretaria Actualizada!"));
     }
 
@@ -172,11 +188,12 @@ class SecretariaController extends Controller
         try {
             $delete_secretaria = Secretaria::find($secretaria2);
             $delete_secretaria->delete();
+            return back()->with("success", __("Secretaria Eliminada"));
         } catch (\Throwable $th) {
-            //throw $th;
+            return back()->with("danger", __("No puedes eliminar esta secretaria"));
         }
 
-        return back()->with("success", __("Secretaria Eliminada"));
+
     }
 
 }

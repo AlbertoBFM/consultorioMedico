@@ -17,7 +17,7 @@ class PacienteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function __construct(){
-        $this->middleware("secretaria");
+        // $this->middleware("secretaria");
     }
 
     public function index(Request $request)
@@ -60,13 +60,14 @@ class PacienteController extends Controller
      */
     public function store(Request $request)
     {
-        echo $request->nombres;
+        //fecha actual
+        $fecha_Actual = date("Y-m-d");
         $this->validate($request, [
-            "ci" => "required|unique:pacientes|min:8",
-            "nombres" => "required",
-            "apellidos" => "required",
-            "fechanacimiento" => "required",
-            "celular" => "required",
+            "ci" => "required|unique:pacientes|unique:medicos|unique:secretarias|numeric|min:10000000|max:9999999999",
+            "nombres" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "apellidos" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "f_nac" => "required|before:".$fecha_Actual,
+            "cel" => "required|unique:pacientes|unique:medicos|unique:secretarias|numeric|min:10000000|max:99999999",
         ]);
 
         $usuario=User::where("id",auth()->id())->get();
@@ -75,9 +76,9 @@ class PacienteController extends Controller
             'ci' => $request->ci,
             'apellidos' => $request->apellidos,
             'nombres' => $request->nombres,
-            'f_nac' => $request->fechanacimiento,
+            'f_nac' => $request->f_nac,
             'sexo' => $request->sexo,
-            'cel' => $request->celular,
+            'cel' => $request->cel,
             'secretaria_id' => $usuario[0]['secretaria_id'],
         ]);
 
@@ -123,13 +124,22 @@ class PacienteController extends Controller
      */
     public function update(Request $request, Paciente $paciente)
     {
+        $fecha_Actual = date("Y-m-d");
+        $this->validate($request, [
+            "ci" => "required|unique:pacientes,ci,".$paciente->id."|unique:medicos,ci,".$paciente->id."|unique:secretarias,ci,".$paciente->id."|numeric|min:10000000|max:9999999999",
+            "nombres" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "apellidos" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
+            "f_nac" => "required|before:".$fecha_Actual,
+            "cel" => "required|unique:pacientes,cel,".$paciente->id."|unique:medicos,cel,".$paciente->id."|unique:secretarias,cel,".$paciente->id."|numeric|min:10000000|max:99999999",
+        ]);
+
         $pacientes=Paciente::find($paciente->id);
-        $pacientes->ci=$request->ci;
-        $pacientes->apellidos=$request->apellidos;
-        $pacientes->nombres=$request->nombres;
-        $pacientes->f_nac=$request->fechanacimiento;
-        $pacientes->sexo=$request->sexo;
-        $pacientes->cel=$request->celular;
+        $pacientes->ci = $request->ci;
+        $pacientes->apellidos = $request->apellidos;
+        $pacientes->nombres = $request->nombres;
+        $pacientes->f_nac = $request->f_nac;
+        $pacientes->sexo = $request->sexo;
+        $pacientes->cel = $request->cel;
         $pacientes->save();
         return redirect(route('paciente.index'))->with("success",__("SE MODIFICO CORRECTAMENTE"));
     }
@@ -143,13 +153,13 @@ class PacienteController extends Controller
     public function destroy(Paciente $paciente)
     {
         try {
-            $mensaje="El usuario ".$paciente->nombres." $paciente->apellidos se elimino exitosamente!!!";
+            $mensaje="El paciente ".$paciente->nombres." $paciente->apellidos se elimino exitosamente!!!";
             $pacientes = Paciente::find($paciente->id);
             $pacientes->delete();
+            return redirect(route('paciente.index'))->with("success",$mensaje);
         } catch (\Throwable $th) {
             $mensaje = "No puede borrar este paciente";
+            return redirect(route('paciente.index'))->with("danger",$mensaje);
         }
-
-        return redirect(route('paciente.index'))->with("success",$mensaje);
     }
 }
