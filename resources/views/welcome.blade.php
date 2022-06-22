@@ -59,9 +59,9 @@
                         "
                 class="flex d-flex justify-center items-center"
             >
-                <h1 style="width:40%""
+                <h1 style="width:50%"
                     class="titulo mb-6 text-white text-center bold tracking-wider text-4xl sm:mb-8 sm:text-6xl flota">
-                    {{ config('app.name', 'Consultorio Gessba') }}
+                    {{ config('app.name', 'Clínica Gessba') }}
                 </h1>
                 <img style="width:40%"
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Escudo_de_Potosí.svg/1200px-Escudo_de_Potosí.svg.png" alt=""

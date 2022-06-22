@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class SecretariaController extends Controller
 {
     public function __construct(){
-        $this->middleware("jefeMedico");
+        // $this->middleware("jefeMedico");
     }
     /**
      * Display a listing of the resource.

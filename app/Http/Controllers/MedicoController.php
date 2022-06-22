@@ -102,7 +102,7 @@ class MedicoController extends Controller
         $fecha_mayoria_edad = date("Y-m-d", strtotime($fecha_Actual."- 18 year"));
 
         $this->validate($request, [
-            "email" => "required|unique:users",
+            "email" => "required|unique:users|email",
             "ci" => "required|unique:medicos|unique:secretarias|numeric|min:10000000|max:9999999999",
             "apellidos" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",
             "nombres" => "required|max:100|regex:/(^([a-zA-z])[a-zA-z ]*([a-zA-Z]*)$)/u",

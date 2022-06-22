@@ -15,7 +15,7 @@ class EspecialidadController extends Controller
      */
 
     public function __construct(){
-        $this->middleware("jefeMedico");
+        // $this->middleware("jefeMedico");
     }
 
     public function index()
